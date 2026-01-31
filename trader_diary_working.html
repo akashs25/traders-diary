@@ -302,7 +302,7 @@
                             </div>
                             <div class="data-card" style="border-left-color: #e74c3c;">
                                 <div class="data-label">Stop Loss</div>
-                                <div class="data-value" id="sl1" style="color: #e74c3c;">--</div>
+                                <div class="data-value" id="sl1_display" style="color: #e74c3c;">--</div>
                             </div>
                             <div class="data-card" style="border-left-color: #2ecc71;">
                                 <div class="data-label">Target 1 (90°)</div>
@@ -494,7 +494,7 @@
 
             // Display levels
             document.getElementById('gray' + num).textContent = '₹' + grayDown.toFixed(2) + ' - ₹' + grayUp.toFixed(2);
-            document.getElementById('sl' + num).textContent = '₹' + sl.toFixed(2);
+            document.getElementById('sl' + num + '_display').textContent = '₹' + sl.toFixed(2);
             document.getElementById('t1_' + num).textContent = '₹' + t1.toFixed(2);
             document.getElementById('t2_' + num).textContent = '₹' + t2.toFixed(2);
             document.getElementById('t3_' + num).textContent = '₹' + t3.toFixed(2);
