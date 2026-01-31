@@ -362,10 +362,10 @@
                 <p>Use the same form for your third script</p>
             </div>
         </div>
+
     </div>
 
-
-
+    <!-- Move script to end of body for proper DOM loading -->
     <script>
         // Force full reload on F5 or Ctrl+R (bypass cache)
         window.addEventListener('keydown', function(e) {
@@ -467,7 +467,6 @@
             }
 
             const current = parseFloat(document.getElementById('current' + num).value) || anchor;
-            
             // Calculate levels using Square Root Theory (same as table)
             const sqrtAnchor = Math.sqrt(anchor);
             // Step size for 7x7 Gann: 0.125 per step
@@ -530,8 +529,6 @@
             let x = 3, y = 3, dir = 0, step = 1, placed = 1, spiralStep = 0;
             // Center cell is anchor
             spiral[y][x] = anchor;
-            // Square Root Theory setup
-            const sqrtAnchor = Math.sqrt(anchor);
             // Fill spiral with Square Root Theory values
             while (placed < 49) {
                 for (let rep = 0; rep < 2; rep++) {
@@ -542,10 +539,10 @@
                             spiralStep++;
                             let v;
                             if (window.gannTableMode !== 'down') {
-                                // Upward: Price = (sqrt(anchor) + (step * 0.125))^2
+                                // Upward: Price = (sqrtAnchor + (step * 0.125))^2
                                 v = Math.pow(sqrtAnchor + (spiralStep * 0.125), 2);
                             } else {
-                                // Downward: Price = (sqrt(anchor) - (step * 0.125))^2
+                                // Downward: Price = (sqrtAnchor - (step * 0.125))^2
                                 v = Math.pow(sqrtAnchor - (spiralStep * 0.125), 2);
                             }
                             spiral[y][x] = v;
