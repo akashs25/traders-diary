@@ -1,0 +1,80 @@
+import math
+def calculate_gann_levels(price):
+    # Step 1: Find the square root of the current price
+    root = math.sqrt(price)
+    
+    # Step 2: Define Gann Factors for specific angles
+    # 360 degrees = 2.0 | 180 degrees = 1.0 | 90 degrees = 0.5 | 45 degrees = 0.25
+    
+    levels = {
+        "Gann Pivot (0°)": price,
+        "Stage 1 SL (-45°)": round(math.pow(root - 0.25, 2), 2),
+        "Stage 2 Target (+90°)": round(math.pow(root + 0.50, 2), 2),
+        "Major Resistance (+180°)": round(math.pow(root + 1.0, 2), 2)
+    }
+    return levels
+
+# Example for hdfcbank (Current LTP ~932.5)
+hdfcbank_levels = calculate_gann_levels(932.5)
+print(f"hdfc. Gann Blueprint: {hdfcbank_levels}")
+
+
+
+
+
+
+import numpy as np
+
+def generate_gann_7x7(central_value):
+    # Factors for a clockwise spiral (simplified for 49 levels)
+    # Each 'step' in the spiral is a 45-degree vibration (0.125)
+    step = 0.125 
+    
+    # We calculate the 49 levels surrounding the center
+    levels = [round((np.sqrt(central_value) + (i * step))**2, 2) for i in range(-24, 25)]
+    
+    # Reshape into a 7x7 grid (Note: true Gann spirals require a specific coordinate mapping)
+    grid = np.array(levels).reshape(7, 7)
+    return grid
+
+# Example for HDFC Bank at 932.70
+print(generate_gann_7x7(932.70))
+
+
+
+
+import numpy as np
+import pandas as pd
+
+def generate_gann_csv(central_value, filename="Gann_Square_7x7.csv"):
+    # Setup a 7x7 grid
+    grid = np.zeros((7, 7))
+    y, x = 3, 3  # Center coordinates
+    grid[y, x] = central_value
+    
+    # Movement: Right, Up, Left, Down
+    moves = [(0, 1), (-1, 0), (0, -1), (1, 0)]
+    step_size = 1
+    move_idx = 0
+    factor = 0.125 # 45-degree vibration
+    current_root = np.sqrt(central_value)
+    
+    count = 1
+    while count < 49:
+        for _ in range(2):
+            for _ in range(step_size):
+                if count >= 49: break
+                dy, dx = moves[move_idx]
+                y, x = y + dy, x + dx
+                grid[y, x] = round((current_root + (count * factor))**2, 2)
+                count += 1
+            move_idx = (move_idx + 1) % 4
+        step_size += 1
+    
+    # Convert to DataFrame and Export
+    df = pd.DataFrame(grid)
+    df.to_csv(filename, index=False, header=False)
+    print(f"Success! Gann Square for {central_value} saved to {filename}")
+
+# Run for HDFC Bank
+generate_gann_csv(932.70)

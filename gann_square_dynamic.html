@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Gann Square 7x7 - Trading Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="number"] {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 150px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            padding: 10px 25px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #10b981;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+            background: rgb(200, 145, 145);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: white;
+            display: table;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #333;
+            font-size: 14px;
+            font-weight: 500;
+            min-width: 80px;
+        }
+
+        th {
+            background: #333;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Color Coding */
+        .center {
+            background-color: #9ca3af !important; /* Gray */
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .cardinal {
+            background-color: #14b8a6 !important; /* Bright Teal */
+            color: white;
+            font-weight: bold;
+        }
+
+        .ordinal {
+            background-color: #fef08a !important; /* Light Yellow */
+        }
+
+        .perimeter {
+            background-color: #bfdbfe !important; /* Light Blue */
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .info-panel {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+
+        .info-panel h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-panel p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            table {
+                font-size: 12px;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔮 Dynamic Gann Square 7×7</h1>
+        <p class="subtitle">W.D. Gann's Square of 9 - Support & Resistance Calculator</p>
+        <p class="subtitle" style="font-size: 0.9em; color: #888; margin-top: -15px;">
+            <strong>Script:</strong> gann_square_dynamic.html | <strong>Prepared:</strong> <span id="prepDateTime"></span>
+        </p>
+
+        <div class="controls">
+            <div class="input-group">
+                <label for="anchorPrice">Anchor Price (₹):</label>
+                <input type="number" id="anchorPrice" step="0.01" value="932.70" placeholder="Enter LTP">
+            </div>
+
+            <div class="toggle-buttons">
+                <button class="toggle-btn active" id="upwardBtn">📈 Upward (Bullish)</button>
+                <button class="toggle-btn" id="downwardBtn">📉 Downward (Bearish)</button>
+            </div>
+
+            <div class="export-buttons">
+                <button class="export-btn" id="exportCsv">📊 Export to CSV</button>
+                <button class="export-btn" id="exportExcel">📑 Export to Excel</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="gannTable">
+                <!-- Table will be generated dynamically -->
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box center"></div>
+                <span>Center (Anchor - Step 0)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box cardinal"></div>
+                <span>Cardinal Cross (90°, 180°, 270°, 360°)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box ordinal"></div>
+                <span>Ordinal Cross (45°, 135°, 225°, 315°)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box perimeter"></div>
+                <span>Extreme Perimeter (Step 48 - Exhaustion)</span>
+            </div>
+        </div>
+
+        <div id="levelsPanel" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; margin-top: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+            <h3 style="margin-bottom: 15px; font-size: 1.5em; text-align: center;">📊 Key Trading Levels</h3>
+            <div id="levelsContent" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+                <!-- Levels will be inserted here -->
+            </div>
+        </div>
+
+        <div class="info-panel" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+            <h3>⏰ Daily Trading Workflow @ 9:15 AM</h3>
+            <ol style="line-height: 2; color: #333;">
+                <li><strong>Get Opening Price:</strong> At 9:15 AM, note the LTP (Last Traded Price) of your stock/index from your trading terminal</li>
+                <li><strong>Enter Anchor Price:</strong> Enter this LTP in the "Anchor Price" field above (e.g., ₹932.70)</li>
+                <li><strong>Choose Direction:</strong>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>Bullish View?</strong> → Click "📈 Upward (Bullish)" to see Support levels below the anchor for Long positions</li>
+                        <li><strong>Bearish View?</strong> → Click "📉 Downward (Bearish)" to see Resistance levels above the anchor for Short positions</li>
+                    </ul>
+                </li>
+                <li><strong>Set Your Levels:</strong>
+                    <ul style="margin-left: 20px;">
+                        <li>For <strong>LONG</strong>: Set buy orders near S1, S2, S3 (support levels). Use R1, R2 as profit targets</li>
+                        <li>For <strong>SHORT</strong>: Set sell orders near R1, R2, R3 (resistance levels). Use S1, S2 as profit targets</li>
+                    </ul>
+                </li>
+                <li><strong>Key Points:</strong>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>Cardinal Cross (Teal):</strong> 90°, 180°, 270°, 360° - Strongest S/R levels</li>
+                        <li><strong>Ordinal Cross (Yellow):</strong> 45°, 135°, 225°, 315° - Intermediate levels</li>
+                        <li><strong>Perimeter (Light Blue):</strong> Extreme exhaustion zone - reversal expected</li>
+                    </ul>
+                </li>
+                <li><strong>Export & Save:</strong> Click "📊 Export to CSV" or "📑 Export to Excel" to save your daily levels for reference</li>
+            </ol>
+            <p style="margin-top: 15px; font-weight: bold; color: #d63031;">⚠️ Pro Tip: Update the anchor price throughout the day if price moves significantly (±2-3%) to recalibrate levels</p>
+        </div>
+
+        <div class="info-panel">
+            <h3>📖 How It Works</h3>
+            <p><strong>Upward Series (Long):</strong> Price = (√Anchor + (Step × 0.125))² — Each step adds 45° vibration</p>
+            <p><strong>Downward Series (Short):</strong> Price = (√Anchor - (Step × 0.125))² — Each step subtracts 45° vibration</p>
+            <p><strong>Spiral Logic:</strong> Starts from center (Row 4, Col 4) and moves clockwise: Right → Down → Left → Up</p>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentMode = 'upward'; // 'upward' or 'downward'
+        let anchorPrice = 932.70;
+        let gridData = {}; // Stores { row, col, step, price, class }
+
+        // Spiral generation - Clockwise from center
+        function generateSpiralMap() {
+            const spiral = [];
+            const centerRow = 3; // 0-indexed row 3 = display row 4
+            const centerCol = 3; // 0-indexed col 3 = display col 4
+            
+            let row = centerRow;
+            let col = centerCol;
+            spiral.push({ row, col, step: 0 });
+
+            // Direction vectors: Right, Down, Left, Up (Clockwise - Gann Square of 9)
+            const directions = [
+                { dr: 0, dc: 1 },  // Right
+                { dr: 1, dc: 0 },  // Down
+                { dr: 0, dc: -1 }, // Left
+                { dr: -1, dc: 0 }  // Up
+            ];
+
+            let dirIdx = 0;
+            let stepsInDirection = 1;
+            let stepsTaken = 0;
+            let directionChanges = 0;
+
+            for (let i = 1; i <= 48; i++) {
+                const dir = directions[dirIdx];
+                row += dir.dr;
+                col += dir.dc;
+                
+                // Validate bounds
+                if (row >= 0 && row < 7 && col >= 0 && col < 7) {
+                    spiral.push({ row, col, step: i });
+                }
+                
+                stepsTaken++;
+
+                if (stepsTaken === stepsInDirection) {
+                    stepsTaken = 0;
+                    dirIdx = (dirIdx + 1) % 4;
+                    directionChanges++;
+                    
+                    // Increase steps after every 2 direction changes
+                    if (directionChanges % 2 === 0) {
+                        stepsInDirection++;
+                    }
+                }
+            }
+
+            return spiral;
+        }
+
+        // Calculate price based on step and mode
+        function calculatePrice(anchor, step, mode) {
+            const sqrtAnchor = Math.sqrt(anchor);
+            if (mode === 'upward') {
+                return Math.pow(sqrtAnchor + (step * 0.125), 2);
+            } else {
+                return Math.pow(sqrtAnchor - (step * 0.125), 2);
+            }
+        }
+
+        // Determine cell class based on position
+        function getCellClass(row, col, step) {
+            const centerRow = 3;
+            const centerCol = 3;
+
+            // Center
+            if (step === 0) {
+                return 'center';
+            }
+
+            // Perimeter (outermost border - step 48 is the last)
+            if (step === 48 || row === 0 || row === 6 || col === 0 || col === 6) {
+                return 'perimeter';
+            }
+
+            // Cardinal Cross (horizontal and vertical through center)
+            if (row === centerRow || col === centerCol) {
+                return 'cardinal';
+            }
+
+            // Ordinal Cross (diagonals through center)
+            if (Math.abs(row - centerRow) === Math.abs(col - centerCol)) {
+                return 'ordinal';
+            }
+
+            return '';
+        }
+
+        // Generate grid data
+        function generateGridData() {
+            const spiral = generateSpiralMap();
+            gridData = {};
+
+            spiral.forEach(({ row, col, step }) => {
+                const price = calculatePrice(anchorPrice, step, currentMode);
+                const cellClass = getCellClass(row, col, step);
+                const key = `${row}-${col}`;
+                gridData[key] = { row, col, step, price, class: cellClass };
+            });
+        }
+
+        // Render table
+        function renderTable() {
+            try {
+                generateGridData();
+                const table = document.getElementById('gannTable');
+                if (!table) {
+                    console.error('Table element not found!');
+                    return;
+                }
+                
+                let html = '<thead><tr><th>Row/Col</th>';
+                
+                for (let col = 1; col <= 7; col++) {
+                    html += `<th>Col ${col}</th>`;
+                }
+                html += '</tr></thead><tbody>';
+
+                for (let row = 0; row < 7; row++) {
+                    html += `<tr><th>Row ${row + 1}</th>`;
+                    for (let col = 0; col < 7; col++) {
+                        const key = `${row}-${col}`;
+                        const cell = gridData[key];
+                        if (cell) {
+                            const price = cell.price.toFixed(2);
+                            const className = cell.class;
+                            html += `<td class="${className}" title="Step ${cell.step}">${price}</td>`;
+                        } else {
+                            html += '<td style="background:#ffcccc;">N/A</td>';
+                        }
+                    }
+                    html += '</tr>';
+                }
+
+                html += '</tbody>';
+                table.innerHTML = html;
+                console.log('Table rendered successfully with', Object.keys(gridData).length, 'cells');
+                
+                // Update key levels display
+                updateKeyLevels();
+            } catch (error) {
+                console.error('Error rendering table:', error);
+            }
+        }
+
+        // Update key levels panel
+        function updateKeyLevels() {
+            const levelsContent = document.getElementById('levelsContent');
+            if (!levelsContent) return;
+
+            if (currentMode === 'upward') {
+                // For upward: show support levels (cardinal and ordinal below anchor)
+                const s1 = calculatePrice(anchorPrice, -1, 'upward'); // 45° below
+                const s2 = calculatePrice(anchorPrice, -2, 'upward'); // 90° below
+                const s3 = calculatePrice(anchorPrice, -4, 'upward'); // 180° below
+                
+                levelsContent.innerHTML = `
+                    <div style="text-align: center;">
+                        <h4 style="margin-bottom: 10px; font-size: 1.2em;">🟢 Support Levels (Long)</h4>
+                        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;">
+                            <p style="margin: 8px 0; font-size: 1.1em;"><strong>S1 (-45°):</strong> ₹${s1.toFixed(2)}</p>
+                            <p style="margin: 8px 0; font-size: 1.1em;"><strong>S2 (-90°):</strong> ₹${s2.toFixed(2)}</p>
+                            <p style="margin: 8px 0; font-size: 1.1em;"><strong>S3 (-180°):</strong> ₹${s3.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h4 style="margin-bottom: 10px; font-size: 1.2em;">🎯 Anchor Price</h4>
+                        <div style="background: rgba(255,255,255,0.3); padding: 15px; border-radius: 8px;">
+                            <p style="margin: 8px 0; font-size: 1.3em; font-weight: bold;">₹${anchorPrice.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // For downward: show resistance levels (cardinal and ordinal above anchor)
+                const r1 = calculatePrice(anchorPrice, -1, 'downward'); // 45° above
+                const r2 = calculatePrice(anchorPrice, -2, 'downward'); // 90° above
+                const r3 = calculatePrice(anchorPrice, -4, 'downward'); // 180° above
+                
+                levelsContent.innerHTML = `
+                    <div style="text-align: center;">
+                        <h4 style="margin-bottom: 10px; font-size: 1.2em;">🔴 Resistance Levels (Short)</h4>
+                        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;">
+                            <p style="margin: 8px 0; font-size: 1.1em;"><strong>R1 (+45°):</strong> ₹${r1.toFixed(2)}</p>
+                            <p style="margin: 8px 0; font-size: 1.1em;"><strong>R2 (+90°):</strong> ₹${r2.toFixed(2)}</p>
+                            <p style="margin: 8px 0; font-size: 1.1em;"><strong>R3 (+180°):</strong> ₹${r3.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h4 style="margin-bottom: 10px; font-size: 1.2em;">🎯 Anchor Price</h4>
+                        <div style="background: rgba(255,255,255,0.3); padding: 15px; border-radius: 8px;">
+                            <p style="margin: 8px 0; font-size: 1.3em; font-weight: bold;">₹${anchorPrice.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('anchorPrice').addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            if (!isNaN(value) && value > 0) {
+                anchorPrice = value;
+                renderTable();
+            }
+        });
+
+        document.getElementById('upwardBtn').addEventListener('click', () => {
+            if (currentMode !== 'upward') {
+                currentMode = 'upward';
+                document.getElementById('upwardBtn').classList.add('active');
+                document.getElementById('downwardBtn').classList.remove('active');
+                renderTable();
+            }
+        });
+
+        document.getElementById('downwardBtn').addEventListener('click', () => {
+            if (currentMode !== 'downward') {
+                currentMode = 'downward';
+                document.getElementById('downwardBtn').classList.add('active');
+                document.getElementById('upwardBtn').classList.remove('active');
+                renderTable();
+            }
+        });
+
+        // Export to CSV
+        document.getElementById('exportCsv').addEventListener('click', () => {
+            let csv = 'Row/Col,Col 1,Col 2,Col 3,Col 4,Col 5,Col 6,Col 7\n';
+            
+            for (let row = 0; row < 7; row++) {
+                csv += `Row ${row + 1}`;
+                for (let col = 0; col < 7; col++) {
+                    const key = `${row}-${col}`;
+                    const cell = gridData[key];
+                    csv += `,${cell ? cell.price.toFixed(2) : '-'}`;
+                }
+                csv += '\n';
+            }
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Gann_Square_${currentMode}_${anchorPrice}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+
+        // Export to Excel (both tables)
+        document.getElementById('exportExcel').addEventListener('click', () => {
+            // Generate both tables
+            const generateTable = (mode) => {
+                const tempMode = currentMode;
+                currentMode = mode;
+                generateGridData();
+                
+                let html = '<table border="1"><tr><th>Row/Col</th>';
+                for (let col = 1; col <= 7; col++) {
+                    html += `<th>Col ${col}</th>`;
+                }
+                html += '</tr>';
+
+                for (let row = 0; row < 7; row++) {
+                    html += `<tr><th>Row ${row + 1}</th>`;
+                    for (let col = 0; col < 7; col++) {
+                        const key = `${row}-${col}`;
+                        const cell = gridData[key];
+                        html += `<td>${cell ? cell.price.toFixed(2) : '-'}</td>`;
+                    }
+                    html += '</tr>';
+                }
+                html += '</table>';
+                
+                currentMode = tempMode;
+                return html;
+            };
+
+            const upwardTable = generateTable('upward');
+            const downwardTable = generateTable('downward');
+
+            // Restore current mode
+            renderTable();
+
+            // Create Excel-compatible HTML
+            const excelHtml = `
+                <html xmlns:x="urn:schemas-microsoft-com:office:excel">
+                <head>
+                    <meta charset="UTF-8">
+                    <xml>
+                        <x:ExcelWorkbook>
+                            <x:ExcelWorksheets>
+                                <x:ExcelWorksheet>
+                                    <x:Name>Upward (Bullish)</x:Name>
+                                    <x:WorksheetSource HRef="sheet1.html"/>
+                                </x:ExcelWorksheet>
+                                <x:ExcelWorksheet>
+                                    <x:Name>Downward (Bearish)</x:Name>
+                                    <x:WorksheetSource HRef="sheet2.html"/>
+                                </x:ExcelWorksheet>
+                            </x:ExcelWorksheets>
+                        </x:ExcelWorkbook>
+                    </xml>
+                </head>
+                <body>
+                    <h2>Upward (Bullish) - Anchor: ${anchorPrice}</h2>
+                    ${upwardTable}
+                    <br><br>
+                    <h2>Downward (Bearish) - Anchor: ${anchorPrice}</h2>
+                    ${downwardTable}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([excelHtml], { type: 'application/vnd.ms-excel' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Gann_Square_Both_Tables_${anchorPrice}.xls`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+
+        // Display preparation date & time
+        const now = new Date();
+        const dateTimeStr = now.toLocaleString('en-IN', { 
+            dateStyle: 'medium', 
+            timeStyle: 'short',
+            timeZone: 'Asia/Kolkata'
+        });
+        document.getElementById('prepDateTime').textContent = dateTimeStr;
+
+        // Initial render
+        renderTable();
+
+        // Validation Tests (Console)
+        console.log('=== ACCEPTANCE CRITERIA TESTS ===');
+        console.log('Test Scenario 1: Anchor = 100, Upward +360° (Step 8 Cardinal)');
+        const test1 = calculatePrice(100, 8, 'upward');
+        console.log(`Expected: 121, Got: ${test1.toFixed(2)}, Pass: ${Math.abs(test1 - 121) < 0.01}`);
+        
+        console.log('Test Scenario 2: Anchor = 100, Downward -360° (Step 8 Cardinal)');
+        const test2 = calculatePrice(100, 8, 'downward');
+        console.log(`Expected: 81, Got: ${test2.toFixed(2)}, Pass: ${Math.abs(test2 - 81) < 0.01}`);
+    </script>
+</body>
+</html>

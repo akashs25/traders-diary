@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gann Square 7x7</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #667eea;
+            font-size: 14px;
+        }
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9ff;
+        }
+        tr:hover {
+            background-color: #e8ebff;
+            transition: background-color 0.3s ease;
+        }
+        td {
+            color: #333;
+            font-weight: 500;
+        }
+        .diagonal {
+            background-color: #ffd700 !important;
+            font-weight: bold;
+            color: #000;
+        }
+        tr:hover .diagonal {
+            background-color: #ffed4e !important;
+        }
+        .middle-cross {
+            background-color: #4169e1 !important;
+            font-weight: bold;
+            color: #fff;
+        }
+        tr:hover .middle-cross {
+            background-color: #5a7fef !important;
+        }
+        .center-cell {
+            background-color: #ff0000 !important;
+            font-weight: bold;
+            color: #fff;
+            font-size: 16px;
+        }
+        tr:hover .center-cell {
+            background-color: #ff3333 !important;
+        }
+        .stats {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f2ff;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        .stats h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .stats p {
+            margin: 8px 0;
+            font-size: 16px;
+            color: #555;
+        }
+        .highlight {
+            color: #764ba2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 Gann Square 7×7 🔢</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Row/Col</th>
+                    <th>Column 0</th>
+                    <th>Column 1</th>
+                    <th>Column 2</th>
+                    <th>Column 3</th>
+                    <th>Column 4</th>
+                    <th>Column 5</th>
+                    <th>Column 6</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Row 0</th>
+                    <td class="diagonal">1227.81</td>
+                    <td>1219.07</td>
+                    <td>1210.35</td>
+                    <td class="middle-cross">1201.67</td>
+                    <td>1193.02</td>
+                    <td>1184.40</td>
+                    <td class="diagonal">1175.81</td>
+                </tr>
+                <tr>
+                    <th>Row 1</th>
+                    <td>1236.59</td>
+                    <td class="diagonal">1058.86</td>
+                    <td>1050.74</td>
+                    <td class="middle-cross">1042.65</td>
+                    <td>1034.60</td>
+                    <td class="diagonal">1026.57</td>
+                    <td>1167.26</td>
+                </tr>
+                <tr>
+                    <th>Row 2</th>
+                    <td>1245.39</td>
+                    <td>1067.01</td>
+                    <td class="diagonal">963.49</td>
+                    <td class="middle-cross">955.75</td>
+                    <td class="diagonal">948.03</td>
+                    <td>1018.58</td>
+                    <td>1158.73</td>
+                </tr>
+                <tr>
+                    <th>Row 3</th>
+                    <td class="middle-cross">1254.23</td>
+                    <td class="middle-cross">1075.19</td>
+                    <td class="middle-cross">971.27</td>
+                    <td class="center-cell">932.70</td>
+                    <td class="middle-cross">940.35</td>
+                    <td class="middle-cross">1010.61</td>
+                    <td class="middle-cross">1150.24</td>
+                </tr>
+                <tr>
+                    <th>Row 4</th>
+                    <td>1263.10</td>
+                    <td>1083.41</td>
+                    <td class="diagonal">979.07</td>
+                    <td class="middle-cross">986.91</td>
+                    <td class="diagonal">994.78</td>
+                    <td>1002.68</td>
+                    <td>1141.77</td>
+                </tr>
+                <tr>
+                    <th>Row 5</th>
+                    <td>1272.00</td>
+                    <td class="diagonal">1091.65</td>
+                    <td>1099.93</td>
+                    <td class="middle-cross">1108.23</td>
+                    <td>1116.57</td>
+                    <td class="diagonal">1124.94</td>
+                    <td>1133.34</td>
+                </tr>
+                <tr>
+                    <th>Row 6</th>
+                    <td class="diagonal">1280.93</td>
+                    <td>1289.90</td>
+                    <td>1298.89</td>
+                    <td class="middle-cross">1307.92</td>
+                    <td>1316.97</td>
+                    <td>1326.06</td>
+                    <td class="diagonal">1335.18</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="stats">
+            <h3>📊 Data Statistics</h3>
+            <p><strong>Matrix Size:</strong> <span class="highlight">7 rows × 7 columns</span></p>
+            <p><strong>Total Values:</strong> <span class="highlight">49</span></p>
+            <p><strong>Minimum Value:</strong> <span class="highlight">932.70</span> (Row 3, Column 3)</p>
+            <p><strong>Maximum Value:</strong> <span class="highlight">1335.18</span> (Row 6, Column 6)</p>
+            <p><strong>Range:</strong> <span class="highlight">402.48</span></p>
+        </div>
+    </div>
+</body>
+</html>
