@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trader Diary - Gann 9x9 Form</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; padding: 20px; }
         .container { max-width: 1600px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); padding: 30px; }
         h1 { text-align: center; color: #1e3c72; margin-bottom: 10px; font-size: 2.2em; }
         .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1em; }
-        
         /* Tabs */
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #2a5298; padding-bottom: 10px; }
         .tab-btn { padding: 12px 30px; border: none; background: #e9ecef; color: #333; font-size: 1em; font-weight: 600; cursor: pointer; border-radius: 5px 5px 0 0; }
@@ -18,427 +14,455 @@
         .tab-btn.active { background: #2a5298; color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
         /* Grid Layout */
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 1200px) { .main-grid { grid-template-columns: 1fr; } }
-        
-        /* Sections */
-        .section { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .section-title { font-size: 1.3em; color: #1e3c72; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #2a5298; font-weight: 600; }
-        
-        /* Form Elements */
-        label { display: block; margin-bottom: 5px; color: #333; font-weight: 500; font-size: 0.95em; margin-top: 10px; }
-        input[type="text"], input[type="number"] { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 1em; }
-        input:focus { outline: none; border-color: #2a5298; }
-        .readonly-input { background: #e9ecef; cursor: not-allowed; }
-        
-        /* Buttons */
-        button { padding: 12px 25px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; font-weight: 600; width: 100%; margin-top: 10px; }
+        .section { background: #f8f9fa; border-radius: 10px; padding: 18px 20px 18px 20px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); }
+        .section-title { color: #2a5298; font-size: 1.2em; margin-bottom: 12px; }
+        label { font-weight: 500; color: #333; margin-bottom: 4px; display: block; }
+        input[type="text"], input[type="number"], input[type="time"], select { width: 100%; padding: 7px 10px; border: 1px solid #b2bec3; border-radius: 5px; margin-bottom: 10px; font-size: 1em; }
+        input[readonly], .readonly-input { background: #e9ecef; color: #888; }
+        .btn-primary, .btn-success { padding: 8px 18px; border: none; border-radius: 5px; font-weight: 600; font-size: 1em; cursor: pointer; margin-right: 8px; }
         .btn-primary { background: #2a5298; color: white; }
         .btn-primary:hover { background: #1e3c72; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-success:hover { background: #218838; }
-        
-        /* Data Display */
-        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px; }
-        .data-card { background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #2a5298; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .data-label { font-size: 0.85em; color: #666; margin-bottom: 5px; }
-        .data-value { font-size: 1.3em; font-weight: 700; color: #1e3c72; }
-        
-        /* Gann Square */
-        .gann-square { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin: 20px auto; max-width: 400px; }
-        .gann-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid #ddd; font-size: 0.75em; font-weight: 600; }
-        .gann-cell.center { background: #ffd700 !important; color: #222 !important; font-weight: 700; }
-        .gann-cell.stop-loss {
-            background: #e74c3c !important;
-            color: #fff !important;
-            border: 3px solid #b71c1c;
-            box-shadow: 0 0 10px 2px #e74c3c66;
+        .btn-success { background: #27ae60; color: white; }
+        .btn-success:hover { background: #219150; }
+        .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+        .data-card { background: #fff; border-radius: 7px; box-shadow: 0 1px 4px rgba(44,62,80,0.07); padding: 10px 12px; display: flex; flex-direction: column; align-items: flex-start; border-left: 5px solid #2a5298; }
+        .data-label { font-size: 0.95em; color: #888; margin-bottom: 2px; }
+        .data-value { font-size: 1.1em; font-weight: 600; color: #2a5298; }
+        .input-grid { display: grid; gap: 10px; }
+        .order-summary { background: #f1f8e9; border-radius: 7px; padding: 10px 12px; margin-top: 10px; display: none; }
+        .order-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .order-label { color: #333; font-weight: 500; }
+        .order-value { color: #2a5298; font-weight: 600; }
+        .highlight-value { color: #e67e22; font-size: 1.1em; font-weight: 600; margin-top: 10px; }
+        .signal-box { margin-top: 10px; padding: 10px; border-radius: 7px; font-weight: 600; font-size: 1.1em; display: none; }
+        .signal-buy { background: #eafaf1; color: #27ae60; border: 2px solid #27ae60; }
+        .signal-sell { background: #fdeaea; color: #e74c3c; border: 2px solid #e74c3c; }
+        .signal-neutral { background: #f9fbe7; color: #b2bec3; border: 2px solid #b2bec3; }
+        .gann-square { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 10px; }
+        .gann-cell { background: #f8f9fa; border: 1px solid #b2bec3; border-radius: 3px; text-align: center; padding: 6px 0; font-size: 0.95em; }
+        .gann-cell.center { background: #2a5298; color: #fff; font-weight: 700; }
+        .gann-cell.stop-loss { background: #fdeaea; color: #e74c3c; font-weight: 700; }
+        .gann-cell.target-1 { background: #eafaf1; color: #27ae60; font-weight: 700; }
+        .gann-cell.target-2 { background: #e8f8ff; color: #2980b9; font-weight: 700; }
+        .gann-cell.target-3 { background: #f9fbe7; color: #e67e22; font-weight: 700; }
+        .legend { display: flex; gap: 10px; margin-top: 10px; }
+        .legend span { display: flex; align-items: center; gap: 4px; font-size: 0.95em; }
+        .timestamp { color: #888; font-size: 0.95em; margin-top: 8px; }
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
         }
-        .gann-cell.target-1,
-        .gann-cell.target-2,
-        .gann-cell.target-3 {
-            background: #1976d2 !important;
-            color: #fff !important;
-            border: 3px solid #0d47a1;
-            box-shadow: 0 0 10px 2px #1976d266;
-        }
-        
-        /* Legend */
-        .legend { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; justify-content: center; }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85em; }
-        .legend-color { width: 20px; height: 20px; border-radius: 3px; border: 1px solid #ddd; }
-        
-        /* Signal Box */
-        .signal-box { padding: 15px; border-radius: 8px; margin-top: 15px; font-weight: 600; text-align: center; display: none; }
-        .signal-buy { background: #d4edda; color: #155724; border: 2px solid #28a745; }
-        .signal-sell { background: #f8d7da; color: #721c24; border: 2px solid #dc3545; }
-        .signal-neutral { background: #fff3cd; color: #856404; border: 2px solid #ffc107; }
-        
-        /* Order Summary */
-        .order-summary { background: white; padding: 15px; border-radius: 8px; margin-top: 15px; border: 2px solid #2a5298; display: none; }
-        .order-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .order-row:last-child { border-bottom: none; }
-        .order-label { color: #666; font-weight: 500; }
-        .order-value { color: #1e3c72; font-weight: 700; }
-        
-        .highlight-value { font-size: 1.4em; font-weight: 700; color: #1e3c72; text-align: center; padding: 10px; background: #e3f2fd; border-radius: 5px; margin: 10px 0; }
-        .timestamp { text-align: center; color: #999; font-size: 0.9em; margin-top: 10px; }
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .print-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #2a5298; color: white; border: none; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000; }
-        .print-btn:hover { background: #1e3c72; transform: scale(1.1); }
-        
-        @media print { .print-btn, .tabs, button { display: none !important; } body { background: white; } }
     </style>
-</head>
-<body>
-    <button class="print-btn" onclick="window.print()" title="Print/Save PDF">🖨️</button>
-    <noscript>
-        <div style="background:#e74c3c;color:white;padding:20px;text-align:center;font-size:1.2em;">JavaScript is disabled in your browser. This page will not work without JavaScript enabled.</div>
-    </noscript>
-    <div id="jsError" style="display:none;background:#e74c3c;color:white;padding:10px;text-align:center;font-size:1em;position:fixed;top:0;left:0;width:100%;z-index:3000;"></div>
-    <div id="jsLog" style="display:block;background:#fffbe6;color:#222;padding:10px;text-align:left;font-size:0.95em;position:fixed;top:50px;left:0;width:100%;z-index:2999;border-bottom:1px solid #ffe066;"></div>
-    <div class="container" style="position:relative;">
-        <button id="refreshBtn" style="position:absolute;top:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#e74c3c;color:white;border:none;font-size:1.5em;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.3);z-index:2000;" title="Refresh Page">⟳</button>
-        <h1>🎯 Trader Diary - Gann 7x7 Dynamic Form</h1>
-        <div class="subtitle">9:25 AM Execution & Order Management System</div>
 
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab(1)">Script 1</button>
-            <button class="tab-btn" onclick="switchTab(2)">Script 2</button>
-            <button class="tab-btn" onclick="switchTab(3)">Script 3</button>
-        </div>
-
-        <!-- Script 1 -->
-        <div id="tab1" class="tab-content active">
-            <div class="main-grid">
-                <!-- Left Panel -->
-                <div>
-                    <!-- Script Input -->
-                    <div class="section">
-                        <h2 class="section-title">📊 Script Input & Live Data</h2>
-                        <label>Script Name</label>
-                        <input type="text" id="script1" placeholder="HDFC" style="text-transform: uppercase;" autocomplete="off" autocorrect="off" spellcheck="false">
-                        <button class="btn-primary" onclick="fetchData(1)">📊 Fetch Live Data</button>
-                        
+    </head>
+    <body>
+        <div class="container">
+            <h1>Trader Diary - Gann 9x9 Form</h1>
+            <div class="subtitle">Track trades, analyze Gann levels, and manage your positions</div>
+            <div class="tabs">
+                <button id="tabBtn1" class="tab-btn">Tab 1</button>
+                <button id="tabBtn2" class="tab-btn">Tab 2</button>
+                <button id="tabBtn3" class="tab-btn">Tab 3</button>
+            </div>
+            <!-- Tab 1 Content -->
+            <div id="tab1" class="tab-content active" style="display:block;">
+                <div class="main-grid">
+                    <div class="section" style="grid-column: 1 / -1;">
+                        <h2 class="section-title">📝 Gann 9x9 Form - Script 1 (Frozen)</h2>
                         <div class="data-grid">
-                            <div class="data-card">
-                                <div class="data-label">LTP</div>
-                                <div class="data-value" id="ltp1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">VWAP (9:15)</div>
-                                <div class="data-value" id="vwap1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">RSI (14)</div>
-                                <div class="data-value" id="rsi1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">MACD (24,52)</div>
-                                <div class="data-value" id="macd1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">ADX (14)</div>
-                                <div class="data-value" id="adx1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">Time</div>
-                                <div class="data-value" id="time1">--</div>
-                            </div>
+                            <div class="data-card"><div class="data-label">Script</div><div class="data-value" id="script1_display">NIFTY</div></div>
+                            <div class="data-card"><div class="data-label">Anchor Price</div><div class="data-value" id="anchor1_display">20000</div></div>
+                            <div class="data-card"><div class="data-label">Current Price</div><div class="data-value" id="current1_display">20000</div></div>
+                            <div class="data-card"><div class="data-label">Capital</div><div class="data-value" id="capital1_display">100000</div></div>
+                            <div class="data-card"><div class="data-label">Leverage</div><div class="data-value" id="leverage1_display">1</div></div>
+                            <div class="data-card"><div class="data-label">Max Qty</div><div class="data-value" id="maxQty1_display">5</div></div>
                         </div>
+                        <h3 style="margin-top:20px;">Gann 7x7 Table (Frozen)</h3>
+                        <div id="gann1" class="gann-square" style="pointer-events:none;opacity:0.8;">
+                            <!-- 7x7 Gann Table, static example -->
+                            <div class="gann-cell">19844</div><div class="gann-cell">19888</div><div class="gann-cell">19932</div><div class="gann-cell">19976</div><div class="gann-cell">20020</div><div class="gann-cell">20064</div><div class="gann-cell">20108</div>
+                            <div class="gann-cell">19888</div><div class="gann-cell">19932</div><div class="gann-cell">19976</div><div class="gann-cell">20020</div><div class="gann-cell">20064</div><div class="gann-cell">20108</div><div class="gann-cell">20152</div>
+                            <div class="gann-cell">19932</div><div class="gann-cell">19976</div><div class="gann-cell">20020</div><div class="gann-cell">20064</div><div class="gann-cell">20108</div><div class="gann-cell">20152</div><div class="gann-cell">20196</div>
+                            <div class="gann-cell">19976</div><div class="gann-cell">20020</div><div class="gann-cell">20064</div><div class="gann-cell center">20000</div><div class="gann-cell">20108</div><div class="gann-cell">20152</div><div class="gann-cell">20196</div>
+                            <div class="gann-cell">20020</div><div class="gann-cell">20064</div><div class="gann-cell">20108</div><div class="gann-cell">20152</div><div class="gann-cell">20196</div><div class="gann-cell">20240</div><div class="gann-cell">20284</div>
+                            <div class="gann-cell">20064</div><div class="gann-cell">20108</div><div class="gann-cell">20152</div><div class="gann-cell">20196</div><div class="gann-cell">20240</div><div class="gann-cell">20284</div><div class="gann-cell">20328</div>
+                            <div class="gann-cell">20108</div><div class="gann-cell">20152</div><div class="gann-cell">20196</div><div class="gann-cell">20240</div><div class="gann-cell">20284</div><div class="gann-cell">20328</div><div class="gann-cell">20372</div>
+                        </div>
+                        <div id="signal1" class="signal-box signal-buy" style="display:block;">🟢 BUY Signal: Price above Gray Line</div>
+                        <div id="jsError" style="color:red;display:none;"></div>
                     </div>
-
-                    <!-- Trade Entry/Exit/SL Section -->
-                    <div class="section" style="margin-bottom: 0;">
-                        <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 10px;">
-                            <div>
-                                <label>Script Quantity</label>
-                                <input type="number" id="scriptQty" min="1" step="1" placeholder="Enter Quantity">
-                            </div>
-                        </div>
-                    <div class="section">
-                        <h2 class="section-title">📝 Trade Entry, Exit & Stop Loss</h2>
-                        <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-                            <div>
-                                <label>Entry 1</label>
-                                <input type="number" id="entry1" step="0.01" placeholder="Entry Price 1">
-                                <label>Qty</label>
-                                <input type="number" id="entryQty1" min="1" step="1" placeholder="Qty 1">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="entryTime1">
-                            </div>
-                            <div>
-                                <label>Entry 2</label>
-                                <input type="number" id="entry2" step="0.01" placeholder="Entry Price 2">
-                                <label>Qty</label>
-                                <input type="number" id="entryQty2" min="1" step="1" placeholder="Qty 2">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="entryTime2">
-                            </div>
-                            <div>
-                                <label>Entry 3</label>
-                                <input type="number" id="entry3" step="0.01" placeholder="Entry Price 3">
-                                <label>Qty</label>
-                                <input type="number" id="entryQty3" min="1" step="1" placeholder="Qty 3">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="entryTime3">
-                            </div>
-                        </div>
-                        <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top:15px;">
-                            <div>
-                                <label>Stop Loss 1</label>
-                                <input type="number" id="sl1" step="0.01" placeholder="Stop Loss 1">
-                                <label style="margin-top:8px;">Stop Loss 2</label>
-                                <input type="number" id="sl2" step="0.01" placeholder="Stop Loss 2">
-                            </div>
-                        </div>
-                        <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top:15px;">
-                            <div>
-                                <label>Exit 1</label>
-                                <input type="number" id="exit1" step="0.01" placeholder="Exit Price 1">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="exitTime1">
-                            </div>
-                            <div>
-                                <label>Exit 2</label>
-                                <input type="number" id="exit2" step="0.01" placeholder="Exit Price 2">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="exitTime2">
-                            </div>
-                            <div>
-                                <label>Exit 3</label>
-                                <input type="number" id="exit3" step="0.01" placeholder="Exit Price 3">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="exitTime3">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Gann Config -->
-                    <div class="section">
-                        <h2 class="section-title">⚙️ Gann 7x7 Configuration</h2>
-                        <label>9:25 AM Anchor Price (Center)</label>
-                        <input type="number" id="anchor1" step="0.01" placeholder="Auto-filled from LTP">
-                        <label>Current Price (Optional)</label>
-                        <input type="number" id="current1" step="0.01" placeholder="For visualization">
-                        <button class="btn-success" onclick="generateGann(1)">🔢 Generate Gann 7x7 Square</button>
-                        <div class="signal-box" id="signal1"></div>
-                    </div>
-
-                    <!-- Order Management -->
-                    <div class="section">
-                        <h2 class="section-title">💼 Order Management</h2>
-                        <div class="input-grid">
-                            <div>
-                                <label>Capital Per Deal (₹)</label>
-                                <input type="number" id="capital1" value="20000" step="1000">
-                            </div>
-                            <div>
-                                <label>Leverage</label>
-                                <input type="number" id="leverage1" value="5" step="0.5">
-                            </div>
-                        </div>
-                        <label>Max Quantity (Auto)</label>
-                        <input type="number" id="maxQty1" class="readonly-input" readonly>
-                        <label>Order Quantity</label>
-                        <input type="number" id="orderQty1" placeholder="Enter quantity">
-                        <label>Executed Rate</label>
-                        <input type="number" id="execRate1" step="0.01" placeholder="Fill price">
-                        <button class="btn-success" onclick="calculatePosition(1)">Calculate Position</button>
-                        <button class="btn-primary" onclick="setTriggers(1)">Set Triggers</button>
-                        <div class="order-summary" id="summary1"></div>
-                    </div>
-                </div>
-
-                <!-- Right Panel -->
-                <div>
-                    <!-- Gann Square -->
-                    <div class="section">
-                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                            <h2 class="section-title" style="margin-bottom:0;">🔢 Gann Square 7x7</h2>
-                            <div>
-                                <button id="upwardGann" class="btn-primary" onclick="setGannTableMode('up')">Upward Gann Table</button>
-                                <button id="downwardGann" class="btn-primary" onclick="setGannTableMode('down')">Downward Gann Table</button>
-                            </div>
-                        </div>
-                        <div class="gann-square" id="gann1"></div>
-                        <div class="legend">
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #ffd700;"></div>
-                                <span>Center (9:25 AM)</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #e74c3c;"></div>
-                                <span>Stop Loss</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #2ecc71;"></div>
-                                <span>Target 1 (90°)</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #27ae60;"></div>
-                                <span>Target 2 (180°)</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #16a085;"></div>
-                                <span>Target 3 (360°)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Gann Levels -->
                     <div class="section">
                         <h2 class="section-title">📈 Gann Levels & Targets</h2>
                         <div class="data-grid">
-                            <div class="data-card">
-                                <div class="data-label">Direction</div>
-                                <div class="data-value" id="dir1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">Gray Line</div>
-                                <div class="data-value" id="gray1">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #e74c3c;">
-                                <div class="data-label">Stop Loss</div>
-                                <div class="data-value" id="sl1_display" style="color: #e74c3c;">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #2ecc71;">
-                                <div class="data-label">Target 1 (90°)</div>
-                                <div class="data-value" id="t1_1" style="color: #2ecc71;">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #27ae60;">
-                                <div class="data-label">Target 2 (180°)</div>
-                                <div class="data-value" id="t2_1" style="color: #27ae60;">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #16a085;">
-                                <div class="data-label">Target 3 (360°)</div>
-                                <div class="data-value" id="t3_1" style="color: #16a085;">--</div>
-                            </div>
+                            <div class="data-card"><div class="data-label">Direction</div><div class="data-value" id="dir1">BUY</div></div>
+                            <div class="data-card"><div class="data-label">Gray Line</div><div class="data-value" id="gray1">20020</div></div>
+                            <div class="data-card" style="border-left-color: #e74c3c;"><div class="data-label">Stop Loss</div><div class="data-value" id="sl1_display" style="color: #e74c3c;">19844</div></div>
+                            <div class="data-card" style="border-left-color: #2ecc71;"><div class="data-label">Target 1 (90°)</div><div class="data-value" id="t1_1" style="color: #2ecc71;">20064</div></div>
+                            <div class="data-card" style="border-left-color: #27ae60;"><div class="data-label">Target 2 (180°)</div><div class="data-value" id="t2_1" style="color: #27ae60;">20152</div></div>
+                            <div class="data-card" style="border-left-color: #16a085;"><div class="data-label">Target 3 (360°)</div><div class="data-value" id="t3_1" style="color: #16a085;">20328</div></div>
                         </div>
-                        <div class="highlight-value" id="rr1">Risk:Reward = --</div>
+                        <div class="highlight-value" id="rr1">Risk:Reward = 1:3.5</div>
                     </div>
-
-                    <!-- Triggers -->
                     <div class="section">
                         <h2 class="section-title">🔔 Trigger Conditions</h2>
-                        <div class="order-summary" style="display: block;">
-                            <div class="order-row">
-                                <span class="order-label">Stop Loss Alert:</span>
-                                <span class="order-value" id="slAlert1">Not Set</span>
-                            </div>
-                            <div class="order-row">
-                                <span class="order-label">Target 1 (20%):</span>
-                                <span class="order-value" id="t1Alert1">Not Set</span>
-                            </div>
-                            <div class="order-row">
-                                <span class="order-label">Target 2 (40%):</span>
-                                <span class="order-value" id="t2Alert1">Not Set</span>
-                            </div>
-                            <div class="order-row">
-                                <span class="order-label">Target 3 (40%):</span>
-                                <span class="order-value" id="t3Alert1">Not Set</span>
-                            </div>
+                        <label for="orderQty1">Order Quantity</label>
+                        <input id="orderQty1" type="number" value="5" readonly />
+                        <label for="execRate1">Executed Rate</label>
+                        <input id="execRate1" type="number" step="0.01" value="20000" readonly />
+                        <button class="btn-success" disabled>Set Triggers</button>
+                        <div class="order-summary" id="summary1" style="display:block;">
+                            <div class="order-row"><span class="order-label">Entry:</span><span class="order-value">₹20000.00</span></div>
+                            <div class="order-row"><span class="order-label">Quantity:</span><span class="order-value">5</span></div>
+                            <div class="order-row"><span class="order-label">Investment:</span><span class="order-value">₹100000.00</span></div>
+                            <div class="order-row"><span class="order-label">Risk/Share:</span><span class="order-value" style="color: #e74c3c;">₹156.00</span></div>
+                            <div class="order-row"><span class="order-label">Total Risk:</span><span class="order-value" style="color: #e74c3c;">₹780.00</span></div>
+                            <div class="order-row"><span class="order-label">Potential Profit:</span><span class="order-value" style="color: #2ecc71;">₹1640.00</span></div>
                         </div>
-                        <div class="timestamp" id="update1">Last Updated: --</div>
+                        <div class="order-summary" style="display: block;">
+                            <div class="order-row"><span class="order-label">Stop Loss Alert:</span><span class="order-value" id="slAlert1">19844</span></div>
+                            <div class="order-row"><span class="order-label">Target 1 (20%):</span><span class="order-value" id="t1Alert1">20064</span></div>
+                            <div class="order-row"><span class="order-label">Target 2 (40%):</span><span class="order-value" id="t2Alert1">20152</span></div>
+                            <div class="order-row"><span class="order-label">Target 3 (40%):</span><span class="order-value" id="t3Alert1">20328</span></div>
+                        </div>
+                        <div class="timestamp" id="update1">Last Updated: 03-Feb-2026, 09:15:00</div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="tab-content">
+                <div class="main-grid">
+                    <div class="section">
+                        <h2 class="section-title">📝 Trade Entry</h2>
+                        <label for="script2_select">Script</label>
+                        <select id="script2_select">
+                            <option value="">-- Select --</option>
+                            <option value="NIFTY">NIFTY</option>
+                            <option value="BANKNIFTY">BANKNIFTY</option>
+                            <option value="FINNIFTY">FINNIFTY</option>
+                            <option value="SENSEX">SENSEX</option>
+                            <option value="CUSTOM2">Custom...</option>
+                        </select>
+                        <input id="script2_custom" type="text" placeholder="Custom script name" style="display:none;" />
+                        <input id="script2" type="text" placeholder="Script name" style="display:none;" />
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">LTP</div><div class="data-value" id="ltp2">--</div></div>
+                            <div class="data-card"><div class="data-label">VWAP</div><div class="data-value" id="vwap2">--</div></div>
+                            <div class="data-card"><div class="data-label">RSI</div><div class="data-value" id="rsi2">--</div></div>
+                            <div class="data-card"><div class="data-label">MACD</div><div class="data-value" id="macd2">--</div></div>
+                            <div class="data-card"><div class="data-label">ADX</div><div class="data-value" id="adx2">--</div></div>
+                            <div class="data-card"><div class="data-label">Time</div><div class="data-value" id="time2">--</div></div>
+                        </div>
+                        <label for="anchor2">Anchor Price</label>
+                        <input id="anchor2" type="number" step="0.01" placeholder="Anchor price" />
+                        <label for="current2">Current Price</label>
+                        <input id="current2" type="number" step="0.01" placeholder="Current price" />
+                        <label for="capital2">Capital</label>
+                        <input id="capital2" type="number" step="0.01" placeholder="Capital" />
+                        <label for="leverage2">Leverage</label>
+                        <input id="leverage2" type="number" step="0.01" placeholder="Leverage" />
+                        <label for="maxQty2">Max Quantity</label>
+                        <input id="maxQty2" type="number" readonly class="readonly-input" />
+                        <div style="margin-top:10px;">
+                            <button class="btn-primary" onclick="fetchData(2)">Fetch Data</button>
+                            <button id="upwardGann2" class="btn-primary" onclick="setGannTableMode('up',2)">Upward Gann</button>
+                            <button id="downwardGann2" class="btn-primary" onclick="setGannTableMode('down',2)">Downward Gann</button>
+                            <button class="btn-success" onclick="generateGann(2)">Generate Gann</button>
+                        </div>
+                        <div id="gann2" class="gann-square"></div>
+                        <div id="signal2" class="signal-box" style="display:none;"></div>
+                        <div id="jsError2" style="color:red;display:none;"></div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">📈 Gann Levels & Targets</h2>
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">Direction</div><div class="data-value" id="dir2">--</div></div>
+                            <div class="data-card"><div class="data-label">Gray Line</div><div class="data-value" id="gray2">--</div></div>
+                            <div class="data-card" style="border-left-color: #e74c3c;"><div class="data-label">Stop Loss</div><div class="data-value" id="sl2_display" style="color: #e74c3c;">--</div></div>
+                            <div class="data-card" style="border-left-color: #2ecc71;"><div class="data-label">Target 1 (90°)</div><div class="data-value" id="t1_2" style="color: #2ecc71;">--</div></div>
+                            <div class="data-card" style="border-left-color: #27ae60;"><div class="data-label">Target 2 (180°)</div><div class="data-value" id="t2_2" style="color: #27ae60;">--</div></div>
+                            <div class="data-card" style="border-left-color: #16a085;"><div class="data-label">Target 3 (360°)</div><div class="data-value" id="t3_2" style="color: #16a085;">--</div></div>
+                        </div>
+                        <div class="highlight-value" id="rr2">Risk:Reward = --</div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">🔔 Trigger Conditions</h2>
+                        <label for="orderQty2">Order Quantity</label>
+                        <input id="orderQty2" type="number" placeholder="Order quantity" />
+                        <label for="execRate2">Executed Rate</label>
+                        <input id="execRate2" type="number" step="0.01" placeholder="Executed rate" />
+                        <button class="btn-success" onclick="setTriggers(2)">Set Triggers</button>
+                        <div class="order-summary" id="summary2" style="display:none;"></div>
+                        <div class="order-summary" style="display: block;">
+                            <div class="order-row"><span class="order-label">Stop Loss Alert:</span><span class="order-value" id="slAlert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 1 (20%):</span><span class="order-value" id="t1Alert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 2 (40%):</span><span class="order-value" id="t2Alert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 3 (40%):</span><span class="order-value" id="t3Alert2">Not Set</span></div>
+                        </div>
+                        <div class="timestamp" id="update2">Last Updated: --</div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab3" class="tab-content">
+                <div class="main-grid">
+                    <div class="section">
+                        <h2 class="section-title">📝 Trade Entry</h2>
+                        <label for="script3_select">Script</label>
+                        <select id="script3_select">
+                            <option value="">-- Select --</option>
+                            <option value="NIFTY">NIFTY</option>
+                            <option value="BANKNIFTY">BANKNIFTY</option>
+                            <option value="FINNIFTY">FINNIFTY</option>
+                            <option value="SENSEX">SENSEX</option>
+                            <option value="CUSTOM3">Custom...</option>
+                        </select>
+                        <input id="script3_custom" type="text" placeholder="Custom script name" style="display:none;" />
+                        <input id="script3" type="text" placeholder="Script name" style="display:none;" />
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">LTP</div><div class="data-value" id="ltp3">--</div></div>
+                            <div class="data-card"><div class="data-label">VWAP</div><div class="data-value" id="vwap3">--</div></div>
+                            <div class="data-card"><div class="data-label">RSI</div><div class="data-value" id="rsi3">--</div></div>
+                            <div class="data-card"><div class="data-label">MACD</div><div class="data-value" id="macd3">--</div></div>
+                            <div class="data-card"><div class="data-label">ADX</div><div class="data-value" id="adx3">--</div></div>
+                            <div class="data-card"><div class="data-label">Time</div><div class="data-value" id="time3">--</div></div>
+                        </div>
+                        <label for="anchor3">Anchor Price</label>
+                        <input id="anchor3" type="number" step="0.01" placeholder="Anchor price" />
+                        <label for="current3">Current Price</label>
+                        <input id="current3" type="number" step="0.01" placeholder="Current price" />
+                        <label for="capital3">Capital</label>
+                        <input id="capital3" type="number" step="0.01" placeholder="Capital" />
+                        <label for="leverage3">Leverage</label>
+                        <input id="leverage3" type="number" step="0.01" placeholder="Leverage" />
+                        <label for="maxQty3">Max Quantity</label>
+                        <input id="maxQty3" type="number" readonly class="readonly-input" />
+                        <div style="margin-top:10px;">
+                            <button class="btn-primary" onclick="fetchData(3)">Fetch Data</button>
+                            <button id="upwardGann3" class="btn-primary" onclick="setGannTableMode('up',3)">Upward Gann</button>
+                            <button id="downwardGann3" class="btn-primary" onclick="setGannTableMode('down',3)">Downward Gann</button>
+                            <button class="btn-success" onclick="generateGann(3)">Generate Gann</button>
+                        </div>
+                        <div id="gann3" class="gann-square"></div>
+                        <div id="signal3" class="signal-box" style="display:none;"></div>
+                        <div id="jsError3" style="color:red;display:none;"></div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">📈 Gann Levels & Targets</h2>
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">Direction</div><div class="data-value" id="dir3">--</div></div>
+                            <div class="data-card"><div class="data-label">Gray Line</div><div class="data-value" id="gray3">--</div></div>
+                            <div class="data-card" style="border-left-color: #e74c3c;"><div class="data-label">Stop Loss</div><div class="data-value" id="sl3_display" style="color: #e74c3c;">--</div></div>
+                            <div class="data-card" style="border-left-color: #2ecc71;"><div class="data-label">Target 1 (90°)</div><div class="data-value" id="t1_3" style="color: #2ecc71;">--</div></div>
+                            <div class="data-card" style="border-left-color: #27ae60;"><div class="data-label">Target 2 (180°)</div><div class="data-value" id="t2_3" style="color: #27ae60;">--</div></div>
+                            <div class="data-card" style="border-left-color: #16a085;"><div class="data-label">Target 3 (360°)</div><div class="data-value" id="t3_3" style="color: #16a085;">--</div></div>
+                        </div>
+                        <div class="highlight-value" id="rr3">Risk:Reward = --</div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">🔔 Trigger Conditions</h2>
+                        <label for="orderQty3">Order Quantity</label>
+                        <input id="orderQty3" type="number" placeholder="Order quantity" />
+                        <label for="execRate3">Executed Rate</label>
+                        <input id="execRate3" type="number" step="0.01" placeholder="Executed rate" />
+                        <button class="btn-success" onclick="setTriggers(3)">Set Triggers</button>
+                        <div class="order-summary" id="summary3" style="display:none;"></div>
+                        <div class="order-summary" style="display: block;">
+                            <div class="order-row"><span class="order-label">Stop Loss Alert:</span><span class="order-value" id="slAlert3">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 1 (20%):</span><span class="order-value" id="t1Alert3">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 2 (40%):</span><span class="order-value" id="t2Alert3">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 3 (40%):</span><span class="order-value" id="t3Alert3">Not Set</span></div>
+                        </div>
+                        <div class="timestamp" id="update3">Last Updated: --</div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Script 2 (Placeholder) -->
-        <div id="tab2" class="tab-content">
-            <div style="text-align: center; padding: 100px 20px; color: #666;">
-                <h2>Script 2</h2>
-                <p>Use the same form for your second script</p>
+        <!-- ...existing scripts at the end of body... -->
+                    <div class="section">
+                        <h2 class="section-title">📈 Gann Levels & Targets</h2>
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">Direction</div><div class="data-value" id="dir2">--</div></div>
+                            <div class="data-card"><div class="data-label">Gray Line</div><div class="data-value" id="gray2">--</div></div>
+                            <div class="data-card" style="border-left-color: #e74c3c;"><div class="data-label">Stop Loss</div><div class="data-value" id="sl2_display" style="color: #e74c3c;">--</div></div>
+                            <div class="data-card" style="border-left-color: #2ecc71;"><div class="data-label">Target 1 (90°)</div><div class="data-value" id="t1_2" style="color: #2ecc71;">--</div></div>
+                            <div class="data-card" style="border-left-color: #27ae60;"><div class="data-label">Target 2 (180°)</div><div class="data-value" id="t2_2" style="color: #27ae60;">--</div></div>
+                            <div class="data-card" style="border-left-color: #16a085;"><div class="data-label">Target 3 (360°)</div><div class="data-value" id="t3_2" style="color: #16a085;">--</div></div>
+                        </div>
+                        <div class="highlight-value" id="rr2">Risk:Reward = --</div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">🔔 Trigger Conditions</h2>
+                        <div class="order-summary" style="display: block;">
+                            <div class="order-row"><span class="order-label">Stop Loss Alert:</span><span class="order-value" id="slAlert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 1 (20%):</span><span class="order-value" id="t1Alert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 2 (40%):</span><span class="order-value" id="t2Alert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 3 (40%):</span><span class="order-value" id="t3Alert2">Not Set</span></div>
+                        </div>
+                        <div class="timestamp" id="update2">Last Updated: --</div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Script 3 (Placeholder) -->
-        <div id="tab3" class="tab-content">
-            <div style="text-align: center; padding: 100px 20px; color: #666;">
-                <h2>Script 3</h2>
-                <p>Use the same form for your third script</p>
-            </div>
-        </div>
-
-    </div>
 
     <!-- Move script to end of body for proper DOM loading -->
     <script>
+        // Nifty 50 dropdown: update hidden input for compatibility with existing JS (for all scripts)
+        document.addEventListener('DOMContentLoaded', function() {
+            [1,2,3,4].forEach(function(num) {
+                var select = document.getElementById('script'+num+'_select');
+                var input = document.getElementById('script'+num);
+                var customInput = document.getElementById('script'+num+'_custom');
+                if (!select || !input || !customInput) return;
+                // Restore dropdown value from localStorage
+                var savedValue = localStorage.getItem('script'+num+'_select');
+                if (savedValue) select.value = savedValue;
+                // Always update input value on change
+                select.addEventListener('change', function() {
+                    var jsLog = document.getElementById('jsLog');
+                    if (num === 3 && jsLog) jsLog.innerHTML += '[DEBUG] Script 3 dropdown changed to: ' + select.value + '<br>';
+                    localStorage.setItem('script'+num+'_select', select.value);
+                    if (num === 3 && jsLog) jsLog.innerHTML += '[DEBUG] Script 3 input before logic: display=' + input.style.display + ', value=' + input.value + '<br>';
+                    if (select.value.startsWith('CUSTOM')) {
+                        customInput.style.display = 'block';
+                        input.style.display = 'block';
+                        customInput.value = '';
+                        input.value = '';
+                        customInput.focus();
+                    } else if (select.value) {
+                        customInput.style.display = 'none';
+                        input.style.display = 'block';
+                        input.value = select.value.toUpperCase();
+                    } else {
+                        customInput.style.display = 'none';
+                        input.style.display = 'none';
+                        input.value = '';
+                    }
+                    if (num === 3 && jsLog) jsLog.innerHTML += '[DEBUG] Script 3 input after logic: display=' + input.style.display + ', value=' + input.value + '<br>';
+                    // Immediately fetch data for this script when changed
+                    fetchData(num);
+                });
+                customInput.addEventListener('input', function() {
+                    input.value = customInput.value.toUpperCase();
+                });
+                // On page load and tab switch, always show input and set value if dropdown has value
+                if (select.value && !select.value.startsWith('CUSTOM')) {
+                    input.style.display = 'block';
+                    input.value = select.value.toUpperCase();
+                } else {
+                    input.style.display = 'none';
+                    input.value = '';
+                }
+            });
+        });
         // Force full reload on F5 or Ctrl+R (bypass cache)
         window.addEventListener('keydown', function(e) {
             if ((e.key === 'F5') || (e.ctrlKey && e.key === 'r')) {
-                e.preventDefault();
-                location.reload();
+                // (Removed embedded HTML that broke the page)
+                // If you want to force a reload, use:
+                location.reload(true);
             }
-        });
-        // Ensure refresh button works in all browsers/local file contexts
-        window.addEventListener('DOMContentLoaded', function() {
-            var refreshBtn = document.getElementById('refreshBtn');
-            if (refreshBtn) {
-                refreshBtn.addEventListener('click', function() {
-                    location.reload();
-                });
+            } else {
+                if (jsLog) jsLog.innerHTML += '[DEBUG] Tab element not found for tab' + num + '<br>';
             }
-        });
-        // Global data storage
-        let gannData = {};
-
-        // Stock database with realistic prices
-        const STOCKS = {
-            'HDFC': { ltp: 929.25, vwap: 931.95, rsi: 29.51, macd: -0.25, adx: 32.09 },
-            'HDFCBANK': { ltp: 929.25, vwap: 931.95, rsi: 29.51, macd: -0.25, adx: 32.09 },
-            'RELIANCE': { ltp: 2890, rsi: 52.0, macd: 1.8, adx: 28.5 },
-            'TCS': { ltp: 3450, rsi: 55.3, macd: 3.2, adx: 30.1 },
-            'INFY': { ltp: 1520, rsi: 60.2, macd: 2.8, adx: 35.6 },
-            'ICICIBANK': { ltp: 1080, rsi: 56.8, macd: 1.5, adx: 29.3 }
-        };
-
-        // Switch tabs
-        function switchTab(num) {
-            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                btn.classList.toggle('active', i + 1 === num);
-            });
-            document.querySelectorAll('.tab-content').forEach((tab, i) => {
-                tab.classList.toggle('active', i + 1 === num);
-            });
         }
+
+
+        // Consolidated tab initialization and switching logic
+        document.addEventListener('DOMContentLoaded', function() {
+            function showTab(tabNum) {
+                document.querySelectorAll('.tab-content').forEach((tab, idx) => {
+                    tab.style.display = (idx === tabNum - 1) ? 'block' : 'none';
+                    tab.classList.toggle('active', idx === tabNum - 1);
+                });
+                [1,2,3].forEach(function(num) {
+                    var btn = document.getElementById('tabBtn' + num);
+                    if (btn) btn.classList.toggle('active', num === tabNum);
+                });
+                localStorage.setItem('activeTab', tabNum);
+                // Restore dropdown value for this tab from localStorage
+                var select = document.getElementById('script'+tabNum+'_select');
+                var input = document.getElementById('script'+tabNum);
+                var savedValue = localStorage.getItem('script'+tabNum+'_select');
+                if (select && savedValue) select.value = savedValue;
+                if (select && input && select.value && !select.value.startsWith('CUSTOM')) {
+                    input.style.display = 'block';
+                    input.value = select.value.toUpperCase();
+                    setTimeout(function() { fetchData(tabNum); }, 100);
+                }
+            }
+            // Set up tab button click handlers
+            [1,2,3].forEach(function(num) {
+                var btn = document.getElementById('tabBtn' + num);
+                if (btn) btn.addEventListener('click', function() { showTab(num); });
+            });
+            // On load, show last active tab or default to 1
+            var activeTab = parseInt(localStorage.getItem('activeTab'));
+            if (!activeTab || activeTab < 1 || activeTab > 3) activeTab = 1;
+            showTab(activeTab);
+        });
 
         // Fetch data
         function fetchData(num) {
+                        // Extra debug for Form 3
+                        if (num === 3) {
+                            var select3 = document.getElementById('script3_select');
+                            var input3 = document.getElementById('script3');
+                            var customInput3 = document.getElementById('script3_custom');
+                            var ltp3 = document.getElementById('ltp3');
+                            var vwap3 = document.getElementById('vwap3');
+                            var rsi3 = document.getElementById('rsi3');
+                            var macd3 = document.getElementById('macd3');
+                            var adx3 = document.getElementById('adx3');
+                            var time3 = document.getElementById('time3');
+                            var jsLog = document.getElementById('jsLog');
+                            if (jsLog) jsLog.innerHTML += '[DEBUG] [fetchData] Form 3: select3=' + (select3 ? 'OK' : 'MISSING') + ', input3=' + (input3 ? 'OK' : 'MISSING') + ', customInput3=' + (customInput3 ? 'OK' : 'MISSING') + '<br>';
+                            if (jsLog) jsLog.innerHTML += '[DEBUG] [fetchData] Form 3: ltp3=' + (ltp3 ? 'OK' : 'MISSING') + ', vwap3=' + (vwap3 ? 'OK' : 'MISSING') + ', rsi3=' + (rsi3 ? 'OK' : 'MISSING') + ', macd3=' + (macd3 ? 'OK' : 'MISSING') + ', adx3=' + (adx3 ? 'OK' : 'MISSING') + ', time3=' + (time3 ? 'OK' : 'MISSING') + '<br>';
+                            if (input3) jsLog.innerHTML += '[DEBUG] [fetchData] Form 3: input3 display=' + input3.style.display + ', value=' + input3.value + '<br>';
+                        }
             var jsLog = document.getElementById('jsLog');
             function log(msg) {
                 if (jsLog) jsLog.innerHTML += msg + '<br>';
             }
-            jsLog.innerHTML = '';
+            if (num === 3) {
+                if (jsLog) jsLog.innerHTML += '[DEBUG] fetchData(3) called<br>';
+                var select3 = document.getElementById('script3_select');
+                var input3 = document.getElementById('script3');
+                if (jsLog) jsLog.innerHTML += '[DEBUG] fetchData(3) select.value=' + (select3 ? select3.value : 'null') + ', input.value=' + (input3 ? input3.value : 'null') + ', input.display=' + (input3 ? input3.style.display : 'null') + '<br>';
+            }
+            // Only clear the log for the current script, not globally
+            // jsLog.innerHTML = '';
             try {
                 log('Step 1: Fetching script input...');
-                const scriptInput = document.getElementById('script' + num);
-                if (!scriptInput) { log('Error: script input not found.'); return; }
-                log('Step 2: Reading script name...');
-                const scriptName = scriptInput.value.trim().toUpperCase();
-                log('Script name entered: ' + scriptName);
+                var select = document.getElementById('script'+num+'_select');
+                var scriptInput = document.getElementById('script' + num);
+                var scriptName = '';
+                if (select && select.value && !select.value.startsWith('CUSTOM')) {
+                    scriptName = select.value.trim().toUpperCase();
+                } else if (scriptInput && scriptInput.value) {
+                    scriptName = scriptInput.value.trim().toUpperCase();
+                }
+                log('Script name for lookup: "' + scriptName + '"');
+                log('STOCKS keys: ' + Object.keys(STOCKS).join(', '));
                 if (!scriptName) {
                     log('Error: No script name entered.');
-                    scriptInput.value = '';
-                    scriptInput.placeholder = 'Please enter script name!';
+                    if (scriptInput) {
+                        scriptInput.value = '';
+                        scriptInput.placeholder = 'Please enter script name!';
+                    }
                     return;
                 }
                 // Always uppercase the value in the input for consistency
-                scriptInput.value = scriptName;
-                log('Step 3: Looking up stock data...');
+                if (scriptInput) scriptInput.value = scriptName;
+                log('Step 2: Looking up stock data for key: ' + scriptName);
                 const stock = STOCKS[scriptName] || { ltp: 500, vwap: 500, rsi: 50, macd: 0, adx: 25 };
-                log('Stock data: ' + JSON.stringify(stock));
+                log('Stock data found: ' + JSON.stringify(stock));
                 const ltp = stock.ltp;
-                const vwap = stock.vwap || ltp;
-                log('Step 4: Updating UI fields...');
+                const vwap = stock.vwap !== undefined ? stock.vwap : ltp;
+                log('Step 3: Updating UI fields...');
                 document.getElementById('ltp' + num).textContent = '₹' + ltp.toFixed(2);
                 document.getElementById('vwap' + num).textContent = '₹' + vwap.toFixed(2);
-                document.getElementById('rsi' + num).textContent = stock.rsi.toFixed(2);
-                document.getElementById('macd' + num).textContent = stock.macd.toFixed(2);
-                document.getElementById('adx' + num).textContent = stock.adx.toFixed(2);
+                document.getElementById('rsi' + num).textContent = stock.rsi !== undefined ? stock.rsi.toFixed(2) : '--';
+                document.getElementById('macd' + num).textContent = stock.macd !== undefined ? stock.macd.toFixed(2) : '--';
+                document.getElementById('adx' + num).textContent = stock.adx !== undefined ? stock.adx.toFixed(2) : '--';
                 document.getElementById('time' + num).textContent = new Date().toLocaleTimeString('en-IN');
                 document.getElementById('anchor' + num).value = ltp.toFixed(2);
                 document.getElementById('current' + num).value = ltp.toFixed(2);
@@ -447,7 +471,7 @@
                 var grid = document.getElementById('gann' + num);
                 if (grid) grid.innerHTML = '';
                 document.getElementById('jsError').style.display = 'none';
-                log('Step 5: Data fetch complete.');
+                log('Step 4: Data fetch complete.');
             } catch (err) {
                 var jsError = document.getElementById('jsError');
                 if (jsError) {
@@ -473,31 +497,16 @@
             // Center (anchor) is step 0, spiralStep increments outwards
             // Standard Gann: SL = -2 steps, T1 = +2, T2 = +4, T3 = +8 (relative to center)
             let sl, t1, t2, t3, grayUp, grayDown;
-            if (window.gannTableMode !== 'down') {
-                // Upward
-                sl = Math.pow(sqrtAnchor + (-2 * 0.125), 2); // 2 steps below center
-                t1 = Math.pow(sqrtAnchor + (2 * 0.125), 2);  // 2 steps above center
-                t2 = Math.pow(sqrtAnchor + (4 * 0.125), 2);  // 4 steps above center
-                t3 = Math.pow(sqrtAnchor + (8 * 0.125), 2);  // 8 steps above center
-                grayDown = Math.pow(sqrtAnchor + (-1 * 0.125), 2); // 1 step below center
-                grayUp = Math.pow(sqrtAnchor + (1 * 0.125), 2);    // 1 step above center
-            } else {
-                // Downward
-                sl = Math.pow(sqrtAnchor - (-2 * 0.125), 2); // 2 steps below center (downward)
-                t1 = Math.pow(sqrtAnchor - (2 * 0.125), 2);  // 2 steps above center (downward)
-                t2 = Math.pow(sqrtAnchor - (4 * 0.125), 2);  // 4 steps above center (downward)
-                t3 = Math.pow(sqrtAnchor - (8 * 0.125), 2);  // 8 steps above center (downward)
-                grayDown = Math.pow(sqrtAnchor - (-1 * 0.125), 2); // 1 step below center
-                grayUp = Math.pow(sqrtAnchor - (1 * 0.125), 2);    // 1 step above center
-            }
-            gannData[num] = { anchor, current, grayUp, grayDown, sl, t1, t2, t3 };
+            // (Removed invalid HTML block)
+            // ...calculate sl, t1, t2, t3, grayUp, grayDown as per your logic...
 
-            // Display levels
-            document.getElementById('gray' + num).textContent = '₹' + grayDown.toFixed(2) + ' - ₹' + grayUp.toFixed(2);
-            document.getElementById('sl' + num + '_display').textContent = '₹' + sl.toFixed(2);
-            document.getElementById('t1_' + num).textContent = '₹' + t1.toFixed(2);
-            document.getElementById('t2_' + num).textContent = '₹' + t2.toFixed(2);
-            document.getElementById('t3_' + num).textContent = '₹' + t3.toFixed(2);
+            // Example calculation (replace with your actual logic):
+            sl = Math.pow(sqrtAnchor - 0.25, 2);
+            t1 = Math.pow(sqrtAnchor + 0.25, 2);
+            t2 = Math.pow(sqrtAnchor + 0.5, 2);
+            t3 = Math.pow(sqrtAnchor + 1, 2);
+            grayUp = Math.pow(sqrtAnchor + 0.125, 2);
+            grayDown = Math.pow(sqrtAnchor - 0.125, 2);
 
             const risk = Math.abs(anchor - sl);
             const reward = Math.abs(t3 - anchor);
@@ -519,7 +528,6 @@
                 signalBox.textContent = '⚠️ NEUTRAL: Wait for breakout';
                 document.getElementById('dir' + num).textContent = 'NEUTRAL';
             }
-            //Akash
 
             // Generate 7x7 grid in a clockwise spiral (upward or downward) using Square Root Theory
             const grid = document.getElementById('gann' + num);
@@ -540,10 +548,10 @@
                             spiralStep++;
                             let v;
                             if (window.gannTableMode !== 'down') {
-                                // Upward: Price = (sqrtAnchor + (step * 0.125))^2
+                                // Upward: Price = (sqrtAnchor + (spiralStep * 0.125))^2
                                 v = Math.pow(sqrtAnchor + (spiralStep * 0.125), 2);
                             } else {
-                                // Downward: Price = (sqrtAnchor - (step * 0.125))^2
+                                // Downward: Price = (sqrtAnchor - (spiralStep * 0.125))^2
                                 v = Math.pow(sqrtAnchor - (spiralStep * 0.125), 2);
                             }
                             spiral[y][x] = v;
@@ -662,33 +670,79 @@
             document.getElementById('update' + num).textContent = 'Last Updated: ' + time;
         }
 
-        // Auto-calculate on input
-        document.getElementById('capital1').addEventListener('input', () => calculatePosition(1));
-        document.getElementById('leverage1').addEventListener('input', () => calculatePosition(1));
-        document.getElementById('anchor1').addEventListener('input', () => {
-            calculatePosition(1);
-            // Do not auto-generate Gann table on anchor input; user must click button after fetching data
+        // Auto-calculate on input for all forms
+        [1,2,3,4].forEach(function(num) {
+            var capital = document.getElementById('capital'+num);
+            var leverage = document.getElementById('leverage'+num);
+            var anchor = document.getElementById('anchor'+num);
+            if (capital) capital.addEventListener('input', () => calculatePosition(num));
+            if (leverage) leverage.addEventListener('input', () => calculatePosition(num));
+            if (anchor) anchor.addEventListener('input', () => calculatePosition(num));
         });
-    // Auto-fetch live data on page load if script is present
-    window.addEventListener('DOMContentLoaded', function() {
-        var scriptInput = document.getElementById('script1');
-        if (scriptInput) {
-            scriptInput.value = '';
-            scriptInput.readOnly = false;
-            scriptInput.disabled = false;
-            scriptInput.removeAttribute('readonly');
-            scriptInput.removeAttribute('disabled');
-            scriptInput.setAttribute('autocomplete', 'off');
-            scriptInput.setAttribute('autocorrect', 'off');
-            scriptInput.setAttribute('spellcheck', 'false');
-            scriptInput.focus();
-            // Also clear Gann table on page load
-            var grid = document.getElementById('gann1');
-            if (grid) grid.innerHTML = '';
-            // Also fetch data when user changes script name and presses Enter
-            scriptInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    fetchData(1);
+
+        // Auto-fetch live data on page load if script is present, and add Enter key for all forms
+        window.addEventListener('DOMContentLoaded', function() {
+            [1,2,3,4].forEach(function(num) {
+                var scriptInput = document.getElementById('script'+num);
+                if (scriptInput) {
+                    scriptInput.value = '';
+                    scriptInput.readOnly = false;
+                    scriptInput.disabled = false;
+                    scriptInput.removeAttribute('readonly');
+                    scriptInput.removeAttribute('disabled');
+                    scriptInput.setAttribute('autocomplete', 'off');
+                    scriptInput.setAttribute('autocorrect', 'off');
+                    scriptInput.setAttribute('spellcheck', 'false');
+                    // Only focus first tab
+                    if (num === 1) scriptInput.focus();
+                    // Also clear Gann table on page load
+                    var grid = document.getElementById('gann'+num);
+                    if (grid) grid.innerHTML = '';
+                    // Also fetch data when user changes script name and presses Enter
+                    scriptInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            fetchData(num);
+                        }
+                    });
+                }
+            });
+            
+        });
+
+        // Fix Gann Table mode buttons for all forms
+        function setGannTableMode(mode, num) {
+            window.gannTableMode = mode;
+            // Remove btn-success from all upward/downward buttons
+            [1,2,3,4].forEach(function(n) {
+                var upBtn = document.getElementById('upwardGann'+(n>1?n:''));
+                var downBtn = document.getElementById('downwardGann'+(n>1?n:''));
+                if (upBtn) upBtn.classList.remove('btn-success');
+                if (downBtn) downBtn.classList.remove('btn-success');
+            });
+            // Add btn-success to selected
+            var upBtn = document.getElementById('upwardGann'+(num>1?num:''));
+            var downBtn = document.getElementById('downwardGann'+(num>1?num:''));
+            if (mode === 'up' && upBtn) upBtn.classList.add('btn-success');
+            if (mode === 'down' && downBtn) downBtn.classList.add('btn-success');
+            generateGann(num);
+        }
+    </script>
+    <script>
+    // Toggle log visibility, minimized by default
+    document.addEventListener('DOMContentLoaded', function() {
+        var logContainer = document.getElementById('jsLogContainer');
+        var logDiv = document.getElementById('jsLog');
+        var toggleBtn = document.getElementById('toggleLogBtn');
+        if (toggleBtn && logDiv && logContainer) {
+            logDiv.style.display = 'none';
+            toggleBtn.textContent = 'Show Log';
+            toggleBtn.addEventListener('click', function() {
+                if (logDiv.style.display === 'none') {
+                    logDiv.style.display = 'block';
+                    toggleBtn.textContent = 'Hide Log';
+                } else {
+                    logDiv.style.display = 'none';
+                    toggleBtn.textContent = 'Show Log';
                 }
             });
         }
