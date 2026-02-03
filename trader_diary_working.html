@@ -98,6 +98,7 @@
         <div style="background:#e74c3c;color:white;padding:20px;text-align:center;font-size:1.2em;">JavaScript is disabled in your browser. This page will not work without JavaScript enabled.</div>
     </noscript>
     <div id="jsError" style="display:none;background:#e74c3c;color:white;padding:10px;text-align:center;font-size:1em;position:fixed;top:0;left:0;width:100%;z-index:3000;"></div>
+    <button id="toggleJsLogBtn" style="position:fixed;top:10px;left:10px;z-index:3001;background:#ffe066;color:#222;padding:6px 16px;border-radius:5px;border:none;font-size:1em;cursor:pointer;">Hide Strip</button>
     <div id="jsLog" style="display:block;background:#fffbe6;color:#222;padding:10px;text-align:left;font-size:0.95em;position:fixed;top:50px;left:0;width:100%;z-index:2999;border-bottom:1px solid #ffe066;"></div>
     <div class="container" style="position:relative;">
         <button id="refreshBtn" style="position:absolute;top:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#e74c3c;color:white;border:none;font-size:1.5em;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.3);z-index:2000;" title="Refresh Page">⟳</button>
@@ -120,7 +121,59 @@
                     <div class="section">
                         <h2 class="section-title">📊 Script Input & Live Data</h2>
                         <label>Script Name</label>
-                        <input type="text" id="script1" placeholder="HDFC" style="text-transform: uppercase;" autocomplete="off" autocorrect="off" spellcheck="false">
+                        <select id="script1" class="form-control">
+                            <option value="">Select Nifty Fifty Share</option>
+                            <option value="HDFC">HDFC</option>
+                            <option value="Reliance">Reliance</option>
+                            <option value="TCS">TCS</option>
+                            <option value="Infosys">Infosys</option>
+                            <option value="ICICI Bank">ICICI Bank</option>
+                            <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                            <option value="Bharti Airtel">Bharti Airtel</option>
+                            <option value="HUL">HUL</option>
+                            <option value="ITC">ITC</option>
+                            <option value="SBI">SBI</option>
+                            <option value="Bajaj Finance">Bajaj Finance</option>
+                            <option value="Asian Paints">Asian Paints</option>
+                            <option value="Maruti Suzuki">Maruti Suzuki</option>
+                            <option value="Axis Bank">Axis Bank</option>
+                            <option value="Sun Pharma">Sun Pharma</option>
+                            <option value="Nestle India">Nestle India</option>
+                            <option value="L&T">L&T</option>
+                            <option value="HCL Tech">HCL Tech</option>
+                            <option value="Titan">Titan</option>
+                            <option value="UltraTech Cement">UltraTech Cement</option>
+                            <option value="Power Grid">Power Grid</option>
+                            <option value="Wipro">Wipro</option>
+                            <option value="NTPC">NTPC</option>
+                            <option value="JSW Steel">JSW Steel</option>
+                            <option value="BPCL">BPCL</option>
+                            <option value="Grasim">Grasim</option>
+                            <option value="Adani Ports">Adani Ports</option>
+                            <option value="Divi's Labs">Divi's Labs</option>
+                            <option value="Cipla">Cipla</option>
+                            <option value="Dr Reddy's">Dr Reddy's</option>
+                            <option value="Eicher Motors">Eicher Motors</option>
+                            <option value="HDFC Life">HDFC Life</option>
+                            <option value="IndusInd Bank">IndusInd Bank</option>
+                            <option value="Tata Consumer">Tata Consumer</option>
+                            <option value="Tata Motors">Tata Motors</option>
+                            <option value="Tata Steel">Tata Steel</option>
+                            <option value="Bajaj Auto">Bajaj Auto</option>
+                            <option value="Bajaj Finserv">Bajaj Finserv</option>
+                            <option value="Britannia">Britannia</option>
+                            <option value="Coal India">Coal India</option>
+                            <option value="Hero MotoCorp">Hero MotoCorp</option>
+                            <option value="Hindalco">Hindalco</option>
+                            <option value="M&M">M&M</option>
+                            <option value="ONGC">ONGC</option>
+                            <option value="Shree Cement">Shree Cement</option>
+                            <option value="Tata Power">Tata Power</option>
+                            <option value="Apollo Hospitals">Apollo Hospitals</option>
+                            <option value="SBI Life">SBI Life</option>
+                            <option value="Tech Mahindra">Tech Mahindra</option>
+                            <option value="HDFC Bank">HDFC Bank</option>
+                        </select>
                         <button class="btn-primary" onclick="fetchData(1)">📊 Fetch Live Data</button>
                         
                         <div class="data-grid">
@@ -154,9 +207,31 @@
                     <!-- Trade Entry/Exit/SL Section -->
                     <div class="section" style="margin-bottom: 0;">
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 10px;">
+                                                        <div>
+                                                            <label>Order Side</label>
+                                                            <select id="orderSide1" class="form-control">
+                                                                <option value="">Select Side</option>
+                                                                <option value="BUY">Buy</option>
+                                                                <option value="SELL">Sell</option>
+                                                            </select>
+                                                        </div>
                             <div>
                                 <label>Script Quantity</label>
                                 <input type="number" id="scriptQty" min="1" step="1" placeholder="Enter Quantity">
+                            </div>
+                            <div>
+                                <label>Order Type</label>
+                                <select id="orderType1" class="form-control">
+                                    <option value="MARKET">Market</option>
+                                    <option value="LIMIT">Limit</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Order Category</label>
+                                <select id="orderCategory1" class="form-control">
+                                    <option value="INTRADAY">Intraday</option>
+                                    <option value="DELIVERY">Delivery</option>
+                                </select>
                             </div>
                         </div>
                     <div class="section">
@@ -188,29 +263,42 @@
                             </div>
                         </div>
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top:15px;">
+                                                    <div style="margin-top:20px;">
+                                                        <button class="btn-primary" id="placeOrderBtn1" onclick="placeOrder(1)">Place Order</button>
+                                                    </div>
                             <div>
                                 <label>Stop Loss 1</label>
                                 <input type="number" id="sl1" step="0.01" placeholder="Stop Loss 1">
+                                <label>Qty</label>
+                                <input type="number" id="slQty1" min="1" step="1" placeholder="Qty 1">
                                 <label style="margin-top:8px;">Stop Loss 2</label>
                                 <input type="number" id="sl2" step="0.01" placeholder="Stop Loss 2">
+                                <label>Qty</label>
+                                <input type="number" id="slQty2" min="1" step="1" placeholder="Qty 2">
                             </div>
                         </div>
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top:15px;">
                             <div>
                                 <label>Exit 1</label>
                                 <input type="number" id="exit1" step="0.01" placeholder="Exit Price 1">
+                                <label>Qty</label>
+                                <input type="number" id="exitQty1" min="1" step="1" placeholder="Qty 1">
                                 <label style="margin-top:8px;">Time</label>
                                 <input type="time" id="exitTime1">
                             </div>
                             <div>
                                 <label>Exit 2</label>
                                 <input type="number" id="exit2" step="0.01" placeholder="Exit Price 2">
+                                <label>Qty</label>
+                                <input type="number" id="exitQty2" min="1" step="1" placeholder="Qty 2">
                                 <label style="margin-top:8px;">Time</label>
                                 <input type="time" id="exitTime2">
                             </div>
                             <div>
                                 <label>Exit 3</label>
                                 <input type="number" id="exit3" step="0.01" placeholder="Exit Price 3">
+                                <label>Qty</label>
+                                <input type="number" id="exitQty3" min="1" step="1" placeholder="Qty 3">
                                 <label style="margin-top:8px;">Time</label>
                                 <input type="time" id="exitTime3">
                             </div>
@@ -367,6 +455,36 @@
 
     <!-- Move script to end of body for proper DOM loading -->
     <script>
+                // Place Order with validation and feedback
+                function placeOrder(num) {
+                    const jsLog = document.getElementById('jsLog');
+                    // Collect values
+                    const script = document.getElementById('script' + num).value;
+                    const qty = document.getElementById('scriptQty').value;
+                    const orderType = document.getElementById('orderType1').value;
+                    const orderCategory = document.getElementById('orderCategory1').value;
+                    // Exit and stop loss quantities (optional, can be blank or zero)
+                    // No validation required for these fields for single target/SL scenario
+                    const orderSide = document.getElementById('orderSide1').value;
+                    let errors = [];
+                    if (!script) errors.push('Please select a script.');
+                    if (!qty || isNaN(qty) || Number(qty) <= 0) errors.push('Enter a valid quantity.');
+                    if (!orderType) errors.push('Select order type.');
+                    if (!orderCategory) errors.push('Select order category.');
+                    if (!orderSide) errors.push('Select order side (Buy/Sell).');
+                    if (errors.length > 0) {
+                        jsLog.innerHTML = '<span style="color:#e74c3c;">' + errors.join('<br>') + '</span>';
+                        return;
+                    }
+                    // Simulate order placement (replace with API call in future)
+                    jsLog.innerHTML = '<span style="color:#28a745;">Order placed successfully!<br>' +
+                        'Script: ' + script + '<br>' +
+                        'Side: ' + orderSide + '<br>' +
+                        'Quantity: ' + qty + '<br>' +
+                        'Order Type: ' + orderType + '<br>' +
+                        'Order Category: ' + orderCategory +
+                        '</span>';
+                }
         // Force full reload on F5 or Ctrl+R (bypass cache)
         window.addEventListener('keydown', function(e) {
             if ((e.key === 'F5') || (e.ctrlKey && e.key === 'r')) {
@@ -380,6 +498,17 @@
             if (refreshBtn) {
                 refreshBtn.addEventListener('click', function() {
                     location.reload();
+                });
+            }
+            // Hide/Show jsLog strip
+            const jsLog = document.getElementById('jsLog');
+            const toggleJsLogBtn = document.getElementById('toggleJsLogBtn');
+            let jsLogVisible = true;
+            if (toggleJsLogBtn && jsLog) {
+                toggleJsLogBtn.addEventListener('click', function() {
+                    jsLogVisible = !jsLogVisible;
+                    jsLog.style.display = jsLogVisible ? 'block' : 'none';
+                    toggleJsLogBtn.textContent = jsLogVisible ? 'Hide Strip' : 'Show Strip';
                 });
             }
         });
