@@ -7,12 +7,15 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 1600px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); padding: 30px; }
+        .container { max-width: 1600px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); padding: 30px; min-height: 700px; }
+        .tab-content { display: none; min-height: 600px; margin-top: 20px; padding-top: 0; }
+        .tab-content.active { display: block; margin-top: 20px; padding-top: 0; }
         h1 { text-align: center; color: #1e3c72; margin-bottom: 10px; font-size: 2.2em; }
         .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1em; }
         
         /* Tabs */
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #2a5298; padding-bottom: 10px; }
+        /* ...existing code... */
         .tab-btn { padding: 12px 30px; border: none; background: #e9ecef; color: #333; font-size: 1em; font-weight: 600; cursor: pointer; border-radius: 5px 5px 0 0; }
         .tab-btn:hover { background: #d3d9df; }
         .tab-btn.active { background: #2a5298; color: white; }
@@ -21,24 +24,103 @@
         
         /* Grid Layout */
         .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+                .main-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 20px;
+                    align-items: start;
+                }
+                .main-grid > div {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .section {
+                    display: flex;
+                    flex-direction: column;
+                }
         @media (max-width: 1200px) { .main-grid { grid-template-columns: 1fr; } }
         
         /* Sections */
-        .section { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .section-title { font-size: 1.3em; color: #1e3c72; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #2a5298; font-weight: 600; }
+        .section {
+            background: linear-gradient(135deg, #f8f9fa 80%, #e3f0ff 100%);
+            border-radius: 16px;
+            padding: 28px 24px 22px 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 18px rgba(30,60,114,0.07), 0 1.5px 6px rgba(42,82,152,0.04);
+            border: 1.5px solid #e3eafc;
+        }
+        .section-title {
+            font-size: 1.35em;
+            color: #fff;
+            margin-bottom: 18px;
+            padding: 10px 18px 10px 0;
+            border-radius: 8px 0 0 8px;
+            background: linear-gradient(90deg, #2a5298 80%, #1e3c72 100%);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(30,60,114,0.06);
+        }
         
         /* Form Elements */
-        label { display: block; margin-bottom: 5px; color: #333; font-weight: 500; font-size: 0.95em; margin-top: 10px; }
-        input[type="text"], input[type="number"] { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 1em; }
-        input:focus { outline: none; border-color: #2a5298; }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #1e3c72;
+            font-weight: 600;
+            font-size: 1em;
+            margin-top: 12px;
+            letter-spacing: 0.1px;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 2px solid #cfd8dc;
+            border-radius: 7px;
+            font-size: 1em;
+            background: #fafdff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 2px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 2px #e3eafc;
+        }
         .readonly-input { background: #e9ecef; cursor: not-allowed; }
         
         /* Buttons */
-        button { padding: 12px 25px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; font-weight: 600; width: 100%; margin-top: 10px; }
-        .btn-primary { background: #2a5298; color: white; }
-        .btn-primary:hover { background: #1e3c72; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-success:hover { background: #218838; }
+        button {
+            padding: 13px 28px;
+            border: none;
+            border-radius: 7px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 12px;
+            background: linear-gradient(90deg, #2a5298 80%, #1e3c72 100%);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(30,60,114,0.08);
+            transition: background 0.2s, transform 0.15s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #1e3c72 80%, #2a5298 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #2a5298 80%, #1e3c72 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #1e3c72 80%, #2a5298 100%);
+        }
+        .btn-success {
+            background: linear-gradient(90deg, #28a745 80%, #218838 100%);
+            color: white;
+        }
+        .btn-success:hover {
+            background: linear-gradient(90deg, #218838 80%, #28a745 100%);
+        }
         
         /* Data Display */
         .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px; }
@@ -85,7 +167,12 @@
         
         .highlight-value { font-size: 1.4em; font-weight: 700; color: #1e3c72; text-align: center; padding: 10px; background: #e3f2fd; border-radius: 5px; margin: 10px 0; }
         .timestamp { text-align: center; color: #999; font-size: 0.9em; margin-top: 10px; }
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 8px;
+        }
         .print-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #2a5298; color: white; border: none; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1000; }
         .print-btn:hover { background: #1e3c72; transform: scale(1.1); }
         
@@ -115,13 +202,232 @@
         <!-- Script 1 -->
         <div id="tab1" class="tab-content active">
             <div class="main-grid">
-                <!-- Left Panel -->
                 <div>
-                    <!-- Script Input -->
                     <div class="section">
                         <h2 class="section-title">📊 Script Input & Live Data</h2>
                         <label>Script Name</label>
                         <select id="script1" class="form-control">
+                            <option value="">Select Nifty Fifty Share</option>
+                            <option value="HDFC">HDFC</option>
+                            <option value="Reliance">Reliance</option>
+                            <option value="TCS">TCS</option>
+                            <option value="Infosys">Infosys</option>
+                            <option value="ICICI Bank">ICICI Bank</option>
+                            <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                            <option value="Bharti Airtel">Bharti Airtel</option>
+                            <option value="HUL">HUL</option>
+                            <option value="ITC">ITC</option>
+                            <option value="SBI">SBI</option>
+                            <option value="Bajaj Finance">Bajaj Finance</option>
+                            <option value="Asian Paints">Asian Paints</option>
+                            <option value="Maruti Suzuki">Maruti Suzuki</option>
+                            <option value="Axis Bank">Axis Bank</option>
+                            <option value="Sun Pharma">Sun Pharma</option>
+                            <option value="Nestle India">Nestle India</option>
+                            <option value="L&T">L&T</option>
+                            <option value="HCL Tech">HCL Tech</option>
+                        </select>
+                        <button class="btn-primary" onclick="fetchData(1)">📊 Fetch Live Data</button>
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">LTP</div><div class="data-value" id="ltp1">--</div></div>
+                            <div class="data-card"><div class="data-label">VWAP (9:15)</div><div class="data-value" id="vwap1">--</div></div>
+                            <div class="data-card"><div class="data-label">RSI (14)</div><div class="data-value" id="rsi1">--</div></div>
+                            <div class="data-card"><div class="data-label">MACD (24,52)</div><div class="data-value" id="macd1">--</div></div>
+                            <div class="data-card"><div class="data-label">ADX (14)</div><div class="data-value" id="adx1">--</div></div>
+                            <div class="data-card"><div class="data-label">Time</div><div class="data-value" id="time1">--</div></div>
+                        </div>
+                    </div>
+                    <div class="section" style="margin-bottom: 0;">
+                        <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 10px;">
+                            <div><label>Script Quantity</label><input type="number" id="scriptQty1" min="1" step="1" placeholder="Enter Quantity"></div>
+                            <div><label>Order Type</label><select id="orderType1" class="form-control"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></div>
+                            <div><label>Order Category</label><select id="orderCategory1" class="form-control"><option value="INTRADAY">Intraday</option><option value="DELIVERY">Delivery</option></select></div>
+                            <div><label>Order Side</label><select id="orderSide1" class="form-control"><option value="">Select Side</option><option value="BUY">Buy</option><option value="SELL">Sell</option></select></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">⚙️ Gann 7x7 Configuration</h2>
+                        <label>9:25 AM Anchor Price (Center)</label><input type="number" id="anchor1" step="0.01" placeholder="Auto-filled from LTP">
+                        <label>Current Price (Optional)</label><input type="number" id="current1" step="0.01" placeholder="For visualization">
+                        <button class="btn-success" onclick="generateGann(1)">🔢 Generate Gann 7x7 Square</button>
+                        <div class="signal-box" id="signal1"></div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">💼 Order Management</h2>
+                        <div class="input-grid">
+                            <div><label>Capital Per Deal (₹)</label><input type="number" id="capital1" value="20000" step="1000"></div>
+                            <div><label>Leverage</label><input type="number" id="leverage1" value="5" step="0.5"></div>
+                        </div>
+                        <label>Max Quantity (Auto)</label><input type="number" id="maxQty1" class="readonly-input" readonly>
+                        <label>Order Quantity</label><input type="number" id="orderQty1" placeholder="Enter quantity">
+                        <label>Executed Rate</label><input type="number" id="execRate1" step="0.01" placeholder="Fill price">
+                        <button class="btn-success" onclick="calculatePosition(1)">Calculate Position</button>
+                        <button class="btn-primary" onclick="setTriggers(1)">Set Triggers</button>
+                        <div class="order-summary" id="summary1"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="section">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                            <h2 class="section-title" style="margin-bottom:0;">🔢 Gann Square 7x7</h2>
+                            <div>
+                                <button id="upwardGann1" class="btn-primary" onclick="setGannTableMode('up',1)">Upward Gann Table</button>
+                                <button id="downwardGann1" class="btn-primary" onclick="setGannTableMode('down',1)">Downward Gann Table</button>
+                            </div>
+                        </div>
+                        <div class="gann-square" id="gann1"></div>
+                        <div class="legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #ffd700;"></div><span>Center (9:25 AM)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #e74c3c;"></div><span>Stop Loss</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #2ecc71;"></div><span>Target 1 (90°)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #27ae60;"></div><span>Target 2 (180°)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #16a085;"></div><span>Target 3 (360°)</span></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">📈 Gann Levels & Targets</h2>
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">Direction</div><div class="data-value" id="dir1">--</div></div>
+                            <div class="data-card"><div class="data-label">Gray Line</div><div class="data-value" id="gray1">--</div></div>
+                            <div class="data-card" style="border-left-color: #e74c3c;"><div class="data-label">Stop Loss</div><div class="data-value" id="sl1_display" style="color: #e74c3c;">--</div></div>
+                            <div class="data-card" style="border-left-color: #2ecc71;"><div class="data-label">Target 1 (90°)</div><div class="data-value" id="t1_1" style="color: #2ecc71;">--</div></div>
+                            <div class="data-card" style="border-left-color: #27ae60;"><div class="data-label">Target 2 (180°)</div><div class="data-value" id="t2_1" style="color: #27ae60;">--</div></div>
+                            <div class="data-card" style="border-left-color: #16a085;"><div class="data-label">Target 3 (360°)</div><div class="data-value" id="t3_1" style="color: #16a085;">--</div></div>
+                        </div>
+                        <div class="highlight-value" id="rr1">Risk:Reward = --</div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">🔔 Trigger Conditions</h2>
+                        <div class="order-summary" style="display: block;">
+                            <div class="order-row"><span class="order-label">Stop Loss Alert:</span><span class="order-value" id="slAlert1">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 1 (20%):</span><span class="order-value" id="t1Alert1">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 2 (40%):</span><span class="order-value" id="t2Alert1">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 3 (40%):</span><span class="order-value" id="t3Alert1">Not Set</span></div>
+                        </div>
+                        <div class="timestamp" id="update1">Last Updated: --</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab2" class="tab-content">
+            <div class="main-grid">
+                <div>
+                    <div class="section">
+                        <h2 class="section-title">📊 Script Input & Live Data</h2>
+                        <label>Script Name</label>
+                        <select id="script2" class="form-control">
+                            <option value="">Select Nifty Fifty Share</option>
+                            <option value="HDFC">HDFC</option>
+                            <option value="Reliance">Reliance</option>
+                            <option value="TCS">TCS</option>
+                            <option value="Infosys">Infosys</option>
+                            <option value="ICICI Bank">ICICI Bank</option>
+                            <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                            <option value="Bharti Airtel">Bharti Airtel</option>
+                            <option value="HUL">HUL</option>
+                            <option value="ITC">ITC</option>
+                            <option value="SBI">SBI</option>
+                            <option value="Bajaj Finance">Bajaj Finance</option>
+                            <option value="Asian Paints">Asian Paints</option>
+                            <option value="Maruti Suzuki">Maruti Suzuki</option>
+                            <option value="Axis Bank">Axis Bank</option>
+                            <option value="Sun Pharma">Sun Pharma</option>
+                            <option value="Nestle India">Nestle India</option>
+                            <option value="L&T">L&T</option>
+                            <option value="HCL Tech">HCL Tech</option>
+                        </select>
+                        <button class="btn-primary" onclick="fetchData(2)">📊 Fetch Live Data</button>
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">LTP</div><div class="data-value" id="ltp2">--</div></div>
+                            <div class="data-card"><div class="data-label">VWAP (9:15)</div><div class="data-value" id="vwap2">--</div></div>
+                            <div class="data-card"><div class="data-label">RSI (14)</div><div class="data-value" id="rsi2">--</div></div>
+                            <div class="data-card"><div class="data-label">MACD (24,52)</div><div class="data-value" id="macd2">--</div></div>
+                            <div class="data-card"><div class="data-label">ADX (14)</div><div class="data-value" id="adx2">--</div></div>
+                            <div class="data-card"><div class="data-label">Time</div><div class="data-value" id="time2">--</div></div>
+                        </div>
+                    </div>
+                    <div class="section" style="margin-bottom: 0;">
+                        <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 10px;">
+                            <div><label>Script Quantity</label><input type="number" id="scriptQty2" min="1" step="1" placeholder="Enter Quantity"></div>
+                            <div><label>Order Type</label><select id="orderType2" class="form-control"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></div>
+                            <div><label>Order Category</label><select id="orderCategory2" class="form-control"><option value="INTRADAY">Intraday</option><option value="DELIVERY">Delivery</option></select></div>
+                            <div><label>Order Side</label><select id="orderSide2" class="form-control"><option value="">Select Side</option><option value="BUY">Buy</option><option value="SELL">Sell</option></select></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">⚙️ Gann 7x7 Configuration</h2>
+                        <label>9:25 AM Anchor Price (Center)</label><input type="number" id="anchor2" step="0.01" placeholder="Auto-filled from LTP">
+                        <label>Current Price (Optional)</label><input type="number" id="current2" step="0.01" placeholder="For visualization">
+                        <button class="btn-success" onclick="generateGann(2)">🔢 Generate Gann 7x7 Square</button>
+                        <div class="signal-box" id="signal2"></div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">💼 Order Management</h2>
+                        <div class="input-grid">
+                            <div><label>Capital Per Deal (₹)</label><input type="number" id="capital2" value="20000" step="1000"></div>
+                            <div><label>Leverage</label><input type="number" id="leverage2" value="5" step="0.5"></div>
+                        </div>
+                        <label>Max Quantity (Auto)</label><input type="number" id="maxQty2" class="readonly-input" readonly>
+                        <label>Order Quantity</label><input type="number" id="orderQty2" placeholder="Enter quantity">
+                        <label>Executed Rate</label><input type="number" id="execRate2" step="0.01" placeholder="Fill price">
+                        <button class="btn-success" onclick="calculatePosition(2)">Calculate Position</button>
+                        <button class="btn-primary" onclick="setTriggers(2)">Set Triggers</button>
+                        <div class="order-summary" id="summary2"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="section">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                            <h2 class="section-title" style="margin-bottom:0;">🔢 Gann Square 7x7</h2>
+                            <div>
+                                <button id="upwardGann2" class="btn-primary" onclick="setGannTableMode('up',2)">Upward Gann Table</button>
+                                <button id="downwardGann2" class="btn-primary" onclick="setGannTableMode('down',2)">Downward Gann Table</button>
+                            </div>
+                        </div>
+                        <div class="gann-square" id="gann2"></div>
+                        <div class="legend">
+                            <div class="legend-item"><div class="legend-color" style="background: #ffd700;"></div><span>Center (9:25 AM)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #e74c3c;"></div><span>Stop Loss</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #2ecc71;"></div><span>Target 1 (90°)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #27ae60;"></div><span>Target 2 (180°)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #16a085;"></div><span>Target 3 (360°)</span></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">📈 Gann Levels & Targets</h2>
+                        <div class="data-grid">
+                            <div class="data-card"><div class="data-label">Direction</div><div class="data-value" id="dir2">--</div></div>
+                            <div class="data-card"><div class="data-label">Gray Line</div><div class="data-value" id="gray2">--</div></div>
+                            <div class="data-card" style="border-left-color: #e74c3c;"><div class="data-label">Stop Loss</div><div class="data-value" id="sl2_display" style="color: #e74c3c;">--</div></div>
+                            <div class="data-card" style="border-left-color: #2ecc71;"><div class="data-label">Target 1 (90°)</div><div class="data-value" id="t1_2" style="color: #2ecc71;">--</div></div>
+                            <div class="data-card" style="border-left-color: #27ae60;"><div class="data-label">Target 2 (180°)</div><div class="data-value" id="t2_2" style="color: #27ae60;">--</div></div>
+                            <div class="data-card" style="border-left-color: #16a085;"><div class="data-label">Target 3 (360°)</div><div class="data-value" id="t3_2" style="color: #16a085;">--</div></div>
+                        </div>
+                        <div class="highlight-value" id="rr2">Risk:Reward = --</div>
+                    </div>
+                    <div class="section">
+                        <h2 class="section-title">🔔 Trigger Conditions</h2>
+                        <div class="order-summary" style="display: block;">
+                            <div class="order-row"><span class="order-label">Stop Loss Alert:</span><span class="order-value" id="slAlert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 1 (20%):</span><span class="order-value" id="t1Alert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 2 (40%):</span><span class="order-value" id="t2Alert2">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 3 (40%):</span><span class="order-value" id="t3Alert2">Not Set</span></div>
+                        </div>
+                        <div class="timestamp" id="update2">Last Updated: --</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Script 3 -->
+        <div id="tab3" class="tab-content">
+            <div class="main-grid">
+                <div>
+                    <div class="section">
+                        <h2 class="section-title">📊 Script Input & Live Data</h2>
+                        <label>Script Name</label>
+                        <select id="script3" class="form-control">
                             <option value="">Select Nifty Fifty Share</option>
                             <option value="HDFC">HDFC</option>
                             <option value="Reliance">Reliance</option>
@@ -174,280 +480,102 @@
                             <option value="Tech Mahindra">Tech Mahindra</option>
                             <option value="HDFC Bank">HDFC Bank</option>
                         </select>
-                        <button class="btn-primary" onclick="fetchData(1)">📊 Fetch Live Data</button>
-                        
+                        <button class="btn-primary" onclick="fetchData(3)">📊 Fetch Live Data</button>
                         <div class="data-grid">
-                            <div class="data-card">
-                                <div class="data-label">LTP</div>
-                                <div class="data-value" id="ltp1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">VWAP (9:15)</div>
-                                <div class="data-value" id="vwap1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">RSI (14)</div>
-                                <div class="data-value" id="rsi1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">MACD (24,52)</div>
-                                <div class="data-value" id="macd1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">ADX (14)</div>
-                                <div class="data-value" id="adx1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">Time</div>
-                                <div class="data-value" id="time1">--</div>
-                            </div>
+                            <div class="data-card"><div class="data-label">LTP</div><div class="data-value" id="ltp3">--</div></div>
+                            <div class="data-card"><div class="data-label">VWAP (9:15)</div><div class="data-value" id="vwap3">--</div></div>
+                            <div class="data-card"><div class="data-label">RSI (14)</div><div class="data-value" id="rsi3">--</div></div>
+                            <div class="data-card"><div class="data-label">MACD (24,52)</div><div class="data-value" id="macd3">--</div></div>
+                            <div class="data-card"><div class="data-label">ADX (14)</div><div class="data-value" id="adx3">--</div></div>
+                            <div class="data-card"><div class="data-label">Time</div><div class="data-value" id="time3">--</div></div>
                         </div>
                     </div>
-
-                    <!-- Trade Entry/Exit/SL Section -->
                     <div class="section" style="margin-bottom: 0;">
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 10px;">
-                                                        <div>
-                                                            <label>Order Side</label>
-                                                            <select id="orderSide1" class="form-control">
-                                                                <option value="">Select Side</option>
-                                                                <option value="BUY">Buy</option>
-                                                                <option value="SELL">Sell</option>
-                                                            </select>
-                                                        </div>
-                            <div>
-                                <label>Script Quantity</label>
-                                <input type="number" id="scriptQty" min="1" step="1" placeholder="Enter Quantity">
-                            </div>
-                            <div>
-                                <label>Order Type</label>
-                                <select id="orderType1" class="form-control">
-                                    <option value="MARKET">Market</option>
-                                    <option value="LIMIT">Limit</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label>Order Category</label>
-                                <select id="orderCategory1" class="form-control">
-                                    <option value="INTRADAY">Intraday</option>
-                                    <option value="DELIVERY">Delivery</option>
-                                </select>
-                            </div>
+                            <div><label>Script Quantity</label><input type="number" id="scriptQty3" min="1" step="1" placeholder="Enter Quantity"></div>
+                            <div><label>Order Type</label><select id="orderType3" class="form-control"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></div>
+                            <div><label>Order Category</label><select id="orderCategory3" class="form-control"><option value="INTRADAY">Intraday</option><option value="DELIVERY">Delivery</option></select></div>
+                            <div><label>Order Side</label><select id="orderSide3" class="form-control"><option value="">Select Side</option><option value="BUY">Buy</option><option value="SELL">Sell</option></select></div>
                         </div>
-                    <div class="section">
-                        <h2 class="section-title">📝 Trade Entry, Exit & Stop Loss</h2>
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-                            <div>
-                                <label>Entry 1</label>
-                                <input type="number" id="entry1" step="0.01" placeholder="Entry Price 1">
-                                <label>Qty</label>
-                                <input type="number" id="entryQty1" min="1" step="1" placeholder="Qty 1">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="entryTime1">
-                            </div>
-                            <div>
-                                <label>Entry 2</label>
-                                <input type="number" id="entry2" step="0.01" placeholder="Entry Price 2">
-                                <label>Qty</label>
-                                <input type="number" id="entryQty2" min="1" step="1" placeholder="Qty 2">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="entryTime2">
-                            </div>
-                            <div>
-                                <label>Entry 3</label>
-                                <input type="number" id="entry3" step="0.01" placeholder="Entry Price 3">
-                                <label>Qty</label>
-                                <input type="number" id="entryQty3" min="1" step="1" placeholder="Qty 3">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="entryTime3">
-                            </div>
+                            <div><label>Entry 1</label><input type="number" id="entry31" step="0.01" placeholder="Entry Price 1"><label>Qty</label><input type="number" id="entryQty31" min="1" step="1" placeholder="Qty 1"><label style="margin-top:8px;">Time</label><input type="time" id="entryTime31"></div>
+                            <div><label>Entry 2</label><input type="number" id="entry32" step="0.01" placeholder="Entry Price 2"><label>Qty</label><input type="number" id="entryQty32" min="1" step="1" placeholder="Qty 2"><label style="margin-top:8px;">Time</label><input type="time" id="entryTime32"></div>
+                            <div><label>Entry 3</label><input type="number" id="entry33" step="0.01" placeholder="Entry Price 3"><label>Qty</label><input type="number" id="entryQty33" min="1" step="1" placeholder="Qty 3"><label style="margin-top:8px;">Time</label><input type="time" id="entryTime33"></div>
                         </div>
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top:15px;">
-                                                    <div style="margin-top:20px;">
-                                                        <button class="btn-primary" id="placeOrderBtn1" onclick="placeOrder(1)">Place Order</button>
-                                                    </div>
-                            <div>
-                                <label>Stop Loss 1</label>
-                                <input type="number" id="sl1" step="0.01" placeholder="Stop Loss 1">
-                                <label>Qty</label>
-                                <input type="number" id="slQty1" min="1" step="1" placeholder="Qty 1">
-                                <label style="margin-top:8px;">Stop Loss 2</label>
-                                <input type="number" id="sl2" step="0.01" placeholder="Stop Loss 2">
-                                <label>Qty</label>
-                                <input type="number" id="slQty2" min="1" step="1" placeholder="Qty 2">
-                            </div>
+                            <div><label>Stop Loss 1</label><input type="number" id="sl31" step="0.01" placeholder="Stop Loss 1"><label>Qty</label><input type="number" id="slQty31" min="1" step="1" placeholder="Qty 1"><label style="margin-top:8px;">Stop Loss 2</label><input type="number" id="sl32" step="0.01" placeholder="Stop Loss 2"><label>Qty</label><input type="number" id="slQty32" min="1" step="1" placeholder="Qty 2"></div>
                         </div>
                         <div class="input-grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top:15px;">
-                            <div>
-                                <label>Exit 1</label>
-                                <input type="number" id="exit1" step="0.01" placeholder="Exit Price 1">
-                                <label>Qty</label>
-                                <input type="number" id="exitQty1" min="1" step="1" placeholder="Qty 1">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="exitTime1">
-                            </div>
-                            <div>
-                                <label>Exit 2</label>
-                                <input type="number" id="exit2" step="0.01" placeholder="Exit Price 2">
-                                <label>Qty</label>
-                                <input type="number" id="exitQty2" min="1" step="1" placeholder="Qty 2">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="exitTime2">
-                            </div>
-                            <div>
-                                <label>Exit 3</label>
-                                <input type="number" id="exit3" step="0.01" placeholder="Exit Price 3">
-                                <label>Qty</label>
-                                <input type="number" id="exitQty3" min="1" step="1" placeholder="Qty 3">
-                                <label style="margin-top:8px;">Time</label>
-                                <input type="time" id="exitTime3">
-                            </div>
+                            <div><label>Exit 1</label><input type="number" id="exit31" step="0.01" placeholder="Exit Price 1"><label>Qty</label><input type="number" id="exitQty31" min="1" step="1" placeholder="Qty 1"><label style="margin-top:8px;">Time</label><input type="time" id="exitTime31"></div>
+                            <div><label>Exit 2</label><input type="number" id="exit32" step="0.01" placeholder="Exit Price 2"><label>Qty</label><input type="number" id="exitQty32" min="1" step="1" placeholder="Qty 2"><label style="margin-top:8px;">Time</label><input type="time" id="exitTime32"></div>
+                            <div><label>Exit 3</label><input type="number" id="exit33" step="0.01" placeholder="Exit Price 3"><label>Qty</label><input type="number" id="exitQty33" min="1" step="1" placeholder="Qty 3"><label style="margin-top:8px;">Time</label><input type="time" id="exitTime33"></div>
                         </div>
+                        <div style="margin-top:20px;"><button class="btn-primary" id="placeOrderBtn3" onclick="placeOrder(3)">Place Order</button></div>
                     </div>
                     <!-- Gann Config -->
                     <div class="section">
                         <h2 class="section-title">⚙️ Gann 7x7 Configuration</h2>
-                        <label>9:25 AM Anchor Price (Center)</label>
-                        <input type="number" id="anchor1" step="0.01" placeholder="Auto-filled from LTP">
-                        <label>Current Price (Optional)</label>
-                        <input type="number" id="current1" step="0.01" placeholder="For visualization">
-                        <button class="btn-success" onclick="generateGann(1)">🔢 Generate Gann 7x7 Square</button>
-                        <div class="signal-box" id="signal1"></div>
+                        <label>9:25 AM Anchor Price (Center)</label><input type="number" id="anchor3" step="0.01" placeholder="Auto-filled from LTP">
+                        <label>Current Price (Optional)</label><input type="number" id="current3" step="0.01" placeholder="For visualization">
+                        <button class="btn-success" onclick="generateGann(3)">🔢 Generate Gann 7x7 Square</button>
+                        <div class="signal-box" id="signal3"></div>
                     </div>
-
                     <!-- Order Management -->
                     <div class="section">
                         <h2 class="section-title">💼 Order Management</h2>
                         <div class="input-grid">
-                            <div>
-                                <label>Capital Per Deal (₹)</label>
-                                <input type="number" id="capital1" value="20000" step="1000">
-                            </div>
-                            <div>
-                                <label>Leverage</label>
-                                <input type="number" id="leverage1" value="5" step="0.5">
-                            </div>
+                            <div><label>Capital Per Deal (₹)</label><input type="number" id="capital3" value="20000" step="1000"></div>
+                            <div><label>Leverage</label><input type="number" id="leverage3" value="5" step="0.5"></div>
                         </div>
-                        <label>Max Quantity (Auto)</label>
-                        <input type="number" id="maxQty1" class="readonly-input" readonly>
-                        <label>Order Quantity</label>
-                        <input type="number" id="orderQty1" placeholder="Enter quantity">
-                        <label>Executed Rate</label>
-                        <input type="number" id="execRate1" step="0.01" placeholder="Fill price">
-                        <button class="btn-success" onclick="calculatePosition(1)">Calculate Position</button>
-                        <button class="btn-primary" onclick="setTriggers(1)">Set Triggers</button>
-                        <div class="order-summary" id="summary1"></div>
+                        <label>Max Quantity (Auto)</label><input type="number" id="maxQty3" class="readonly-input" readonly>
+                        <label>Order Quantity</label><input type="number" id="orderQty3" placeholder="Enter quantity">
+                        <label>Executed Rate</label><input type="number" id="execRate3" step="0.01" placeholder="Fill price">
+                        <button class="btn-success" onclick="calculatePosition(3)">Calculate Position</button>
+                        <button class="btn-primary" onclick="setTriggers(3)">Set Triggers</button>
+                        <div class="order-summary" id="summary3"></div>
                     </div>
                 </div>
-
-                <!-- Right Panel -->
                 <div>
-                    <!-- Gann Square -->
                     <div class="section">
                         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
                             <h2 class="section-title" style="margin-bottom:0;">🔢 Gann Square 7x7</h2>
                             <div>
-                                <button id="upwardGann" class="btn-primary" onclick="setGannTableMode('up')">Upward Gann Table</button>
-                                <button id="downwardGann" class="btn-primary" onclick="setGannTableMode('down')">Downward Gann Table</button>
+                                <button id="upwardGann3" class="btn-primary" onclick="setGannTableMode('up',3)">Upward Gann Table</button>
+                                <button id="downwardGann3" class="btn-primary" onclick="setGannTableMode('down',3)">Downward Gann Table</button>
                             </div>
                         </div>
-                        <div class="gann-square" id="gann1"></div>
+                        <div class="gann-square" id="gann3"></div>
                         <div class="legend">
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #ffd700;"></div>
-                                <span>Center (9:25 AM)</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #e74c3c;"></div>
-                                <span>Stop Loss</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #2ecc71;"></div>
-                                <span>Target 1 (90°)</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #27ae60;"></div>
-                                <span>Target 2 (180°)</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #16a085;"></div>
-                                <span>Target 3 (360°)</span>
-                            </div>
+                            <div class="legend-item"><div class="legend-color" style="background: #ffd700;"></div><span>Center (9:25 AM)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #e74c3c;"></div><span>Stop Loss</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #2ecc71;"></div><span>Target 1 (90°)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #27ae60;"></div><span>Target 2 (180°)</span></div>
+                            <div class="legend-item"><div class="legend-color" style="background: #16a085;"></div><span>Target 3 (360°)</span></div>
                         </div>
                     </div>
-
-                    <!-- Gann Levels -->
                     <div class="section">
                         <h2 class="section-title">📈 Gann Levels & Targets</h2>
                         <div class="data-grid">
-                            <div class="data-card">
-                                <div class="data-label">Direction</div>
-                                <div class="data-value" id="dir1">--</div>
-                            </div>
-                            <div class="data-card">
-                                <div class="data-label">Gray Line</div>
-                                <div class="data-value" id="gray1">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #e74c3c;">
-                                <div class="data-label">Stop Loss</div>
-                                <div class="data-value" id="sl1_display" style="color: #e74c3c;">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #2ecc71;">
-                                <div class="data-label">Target 1 (90°)</div>
-                                <div class="data-value" id="t1_1" style="color: #2ecc71;">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #27ae60;">
-                                <div class="data-label">Target 2 (180°)</div>
-                                <div class="data-value" id="t2_1" style="color: #27ae60;">--</div>
-                            </div>
-                            <div class="data-card" style="border-left-color: #16a085;">
-                                <div class="data-label">Target 3 (360°)</div>
-                                <div class="data-value" id="t3_1" style="color: #16a085;">--</div>
-                            </div>
+                            <div class="data-card"><div class="data-label">Direction</div><div class="data-value" id="dir3">--</div></div>
+                            <div class="data-card"><div class="data-label">Gray Line</div><div class="data-value" id="gray3">--</div></div>
+                            <div class="data-card" style="border-left-color: #e74c3c;"><div class="data-label">Stop Loss</div><div class="data-value" id="sl3_display" style="color: #e74c3c;">--</div></div>
+                            <div class="data-card" style="border-left-color: #2ecc71;"><div class="data-label">Target 1 (90°)</div><div class="data-value" id="t1_3" style="color: #2ecc71;">--</div></div>
+                            <div class="data-card" style="border-left-color: #27ae60;"><div class="data-label">Target 2 (180°)</div><div class="data-value" id="t2_3" style="color: #27ae60;">--</div></div>
+                            <div class="data-card" style="border-left-color: #16a085;"><div class="data-label">Target 3 (360°)</div><div class="data-value" id="t3_3" style="color: #16a085;">--</div></div>
                         </div>
-                        <div class="highlight-value" id="rr1">Risk:Reward = --</div>
+                        <div class="highlight-value" id="rr3">Risk:Reward = --</div>
                     </div>
-
-                    <!-- Triggers -->
                     <div class="section">
                         <h2 class="section-title">🔔 Trigger Conditions</h2>
                         <div class="order-summary" style="display: block;">
-                            <div class="order-row">
-                                <span class="order-label">Stop Loss Alert:</span>
-                                <span class="order-value" id="slAlert1">Not Set</span>
-                            </div>
-                            <div class="order-row">
-                                <span class="order-label">Target 1 (20%):</span>
-                                <span class="order-value" id="t1Alert1">Not Set</span>
-                            </div>
-                            <div class="order-row">
-                                <span class="order-label">Target 2 (40%):</span>
-                                <span class="order-value" id="t2Alert1">Not Set</span>
-                            </div>
-                            <div class="order-row">
-                                <span class="order-label">Target 3 (40%):</span>
-                                <span class="order-value" id="t3Alert1">Not Set</span>
-                            </div>
+                            <div class="order-row"><span class="order-label">Stop Loss Alert:</span><span class="order-value" id="slAlert3">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 1 (20%):</span><span class="order-value" id="t1Alert3">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 2 (40%):</span><span class="order-value" id="t2Alert3">Not Set</span></div>
+                            <div class="order-row"><span class="order-label">Target 3 (40%):</span><span class="order-value" id="t3Alert3">Not Set</span></div>
                         </div>
-                        <div class="timestamp" id="update1">Last Updated: --</div>
+                        <div class="timestamp" id="update3">Last Updated: --</div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Script 2 (Placeholder) -->
-        <div id="tab2" class="tab-content">
-            <div style="text-align: center; padding: 100px 20px; color: #666;">
-                <h2>Script 2</h2>
-                <p>Use the same form for your second script</p>
-            </div>
-        </div>
-
-        <!-- Script 3 (Placeholder) -->
-        <div id="tab3" class="tab-content">
-            <div style="text-align: center; padding: 100px 20px; color: #666;">
-                <h2>Script 3</h2>
-                <p>Use the same form for your third script</p>
             </div>
         </div>
 
@@ -495,6 +623,15 @@
         });
         // Ensure refresh button works in all browsers/local file contexts
         window.addEventListener('DOMContentLoaded', function() {
+                        // Ensure only the first tab-content is active on load
+                        var tabContents = document.querySelectorAll('.tab-content');
+                        tabContents.forEach(function(tab, idx) {
+                            if (idx === 0) {
+                                tab.classList.add('active');
+                            } else {
+                                tab.classList.remove('active');
+                            }
+                        });
             var refreshBtn = document.getElementById('refreshBtn');
             if (refreshBtn) {
                 refreshBtn.addEventListener('click', function() {
@@ -528,12 +665,18 @@
 
         // Switch tabs
         function switchTab(num) {
+            // Remove 'active' from all tab buttons and tab contents
             document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                btn.classList.toggle('active', i + 1 === num);
+                btn.classList.remove('active');
             });
             document.querySelectorAll('.tab-content').forEach((tab, i) => {
-                tab.classList.toggle('active', i + 1 === num);
+                tab.classList.remove('active');
             });
+            // Add 'active' to the selected tab button and tab content
+            var tabBtns = document.querySelectorAll('.tab-btn');
+            var tabContents = document.querySelectorAll('.tab-content');
+            if (tabBtns[num-1]) tabBtns[num-1].classList.add('active');
+            if (tabContents[num-1]) tabContents[num-1].classList.add('active');
         }
 
         // Fetch data
@@ -792,37 +935,49 @@
             document.getElementById('update' + num).textContent = 'Last Updated: ' + time;
         }
 
-        // Auto-calculate on input
-        document.getElementById('capital1').addEventListener('input', () => calculatePosition(1));
-        document.getElementById('leverage1').addEventListener('input', () => calculatePosition(1));
-        document.getElementById('anchor1').addEventListener('input', () => {
-            calculatePosition(1);
-            // Do not auto-generate Gann table on anchor input; user must click button after fetching data
+        // Auto-calculate on input for all forms
+        [1,2,3].forEach(function(num) {
+            var cap = document.getElementById('capital'+num);
+            var lev = document.getElementById('leverage'+num);
+            var anc = document.getElementById('anchor'+num);
+            if (cap) cap.addEventListener('input', () => calculatePosition(num));
+            if (lev) lev.addEventListener('input', () => calculatePosition(num));
+            if (anc) anc.addEventListener('input', () => {
+                calculatePosition(num);
+                // Do not auto-generate Gann table on anchor input; user must click button after fetching data
+            });
         });
-    // Auto-fetch live data on page load if script is present
-    window.addEventListener('DOMContentLoaded', function() {
-        var scriptInput = document.getElementById('script1');
-        if (scriptInput) {
-            scriptInput.value = '';
-            scriptInput.readOnly = false;
-            scriptInput.disabled = false;
-            scriptInput.removeAttribute('readonly');
-            scriptInput.removeAttribute('disabled');
-            scriptInput.setAttribute('autocomplete', 'off');
-            scriptInput.setAttribute('autocorrect', 'off');
-            scriptInput.setAttribute('spellcheck', 'false');
-            scriptInput.focus();
-            // Also clear Gann table on page load
-            var grid = document.getElementById('gann1');
-            if (grid) grid.innerHTML = '';
-            // Also fetch data when user changes script name and presses Enter
-            scriptInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    fetchData(1);
+
+        // Auto-fetch live data on page load if script is present, for all forms
+        window.addEventListener('DOMContentLoaded', function() {
+            [1,2,3].forEach(function(num) {
+                var scriptInput = document.getElementById('script'+num);
+                if (scriptInput) {
+                    scriptInput.value = '';
+                    scriptInput.removeAttribute('readonly');
+                    scriptInput.removeAttribute('disabled');
+                    scriptInput.readOnly = false;
+                    scriptInput.disabled = false;
+                    scriptInput.setAttribute('autocomplete', 'off');
+                    scriptInput.setAttribute('autocorrect', 'off');
+                    scriptInput.setAttribute('spellcheck', 'false');
+                    // Also clear Gann table on page load
+                    var grid = document.getElementById('gann'+num);
+                    if (grid) grid.innerHTML = '';
+                    // Also fetch data when user changes script name and presses Enter
+                    scriptInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            fetchData(num);
+                        }
+                    });
+                    // For select elements, ensure they are enabled (fix for dropdowns)
+                    if (scriptInput.tagName === 'SELECT') {
+                        scriptInput.disabled = false;
+                        scriptInput.removeAttribute('disabled');
+                    }
                 }
             });
-        }
-    });
+        });
     </script>
 </body>
 </html>
